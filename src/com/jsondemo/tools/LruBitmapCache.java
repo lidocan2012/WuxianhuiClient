@@ -1,4 +1,4 @@
-package com.jsondemo.activity;
+package com.jsondemo.tools;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 

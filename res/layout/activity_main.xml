@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:text="收藏" />
             </LinearLayout>
-            <include android:id="@+id/tab5" layout="@layout/user" />
+            <include android:id="@+id/tab5" layout="@layout/user_layout" />
         </FrameLayout>
 		
         <TabWidget

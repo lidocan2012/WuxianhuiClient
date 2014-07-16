@@ -1,8 +1,10 @@
-package com.jsondemo.activity;
+package com.jsondemo.tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 //import org.json.JSONObject;
+
+
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
@@ -14,6 +16,9 @@ import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
+import com.jsondemo.activity.R;
+import com.jsondemo.activity.R.id;
+import com.jsondemo.activity.R.layout;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
