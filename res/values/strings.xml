@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">无线慧</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_input">输入要查询的ID</string>
+    <string name="btn_submit">提交</string>
+    <string name="tv_default">显示返回值</string>
+    <string name="menu_volley">volley请求</string>
+    
+    <string name="title_activity_login">wuxianhui</string>
+    <string name="login">登录</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="forget_password">忘了密码？</string>
+    <string name="regist">注册</string>
+    <string name="password_confirm_hint">请再次输入密码</string>
+    <string name="remember_me">记住我</string>
+    
+    <string name="title_activity_regist">注册</string>
+    <string name="telephone_number_hint">输入手机号码</string>
+    <string name="send_vertification_code">接收验证码</string>
+    <string name="vertification_code_hint">短信验证码</string>
+    <string name="follow_rule">遵守无线慧服务规则，</string>
+    <string name="confrim_password_hint">确认密码</string>
+	<string name="server_port">http://192.168.1.100:8080</string>
+	
+	<string name="click_login_user">点击登录</string>
+</resources>

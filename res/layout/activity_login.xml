@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:focusable="true"  
+   android:focusableInTouchMode="true">
+
+    <EditText
+        android:id="@+id/phone_number_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bg_edittext"
+        android:drawableLeft="@drawable/phone"
+        android:ems="10"
+        android:hint="@string/telephone_number_hint"
+        android:inputType="phone"/>
+
+	<View
+	    android:id="@+id/horizon"
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/phone_number_login"
+	    android:background="@color/faint_yellow" />
+    <EditText
+        android:id="@+id/password_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bg_edittext"
+        android:drawableLeft="@drawable/lock"
+        android:ems="10"
+        android:hint="@string/password_hint"
+        android:layout_below="@id/horizon"
+        android:inputType="textPassword"/>
+
+    <CheckBox
+        android:id="@+id/check_remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/password_login"
+        android:layout_below="@+id/password_login"
+        android:layout_marginTop="10dp"
+        android:text="@string/remember_me" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/check_remember"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_alibuybutton"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/login"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/blue"
+        android:text="@string/forget_password"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

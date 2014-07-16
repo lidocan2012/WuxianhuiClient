@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_blue">#0000AA</color>
+    <color name="faint_yellow">#FFEC7600</color>
+    <color name="deep_yellow">#FFFED69E</color>
+    <color name="deep_green">#00AA00</color>
+    <color name="faint_orange">#EE3411</color>
+    <color name="blue">#1874CD</color>
+    <color name="faint_gray">#d9d6c3</color>
+    <color name="gray">#d1c7b7</color>
+</resources>

@@ -1,0 +1,186 @@
+package com.jsondemo.activity;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.jsondemo.tools.SPHelper;
+
+public class LoginActivity extends Activity {
+
+	EditText phonenumberET;
+	EditText passwordET;
+	Button loginButton;
+	Button registButton;
+	ImageView backIV;
+	CheckBox isRememberCB;
+	SPHelper helper;
+	boolean isPhoneCorrect=false;
+	boolean isPasswordCorrect=false;
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		setActionBarLayout(R.layout.actionbar_login_layout);
+		helper = new SPHelper(LoginActivity.this,"information");
+		phonenumberET = (EditText)findViewById(R.id.phone_number_login);
+		passwordET = (EditText)findViewById(R.id.password_login);
+		if(helper.getValue("telephone")!=null){
+			phonenumberET.setText(helper.getValue("telephone"));
+		}
+		phonenumberET.addTextChangedListener(new TextWatcher(){
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+			public void afterTextChanged(Editable s) {
+				String phonenumber = phonenumberET.getText().toString().trim();
+				if(!phonenumber.matches("[1][358]\\d{9}")){
+					phonenumberET.setError("请输入正确的11位手机好码");
+				}else{
+					isPhoneCorrect=true;
+				}
+			}
+			
+		});
+		passwordET.addTextChangedListener(new TextWatcher(){
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+			public void afterTextChanged(Editable s) {
+				String password = passwordET.getText().toString().trim();
+				if(!(password.length()>=6)){
+					passwordET.setError("请输入长度超过6位的密码");
+				}else{
+					isPasswordCorrect=true;
+				}
+			}
+			
+		});
+		loginButton = (Button)findViewById(R.id.login);
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String phonenumber = phonenumberET.getText().toString().trim();
+				String password = passwordET.getText().toString().trim();
+				if(!isPhoneCorrect){
+					Toast.makeText(LoginActivity.this,"手机号码输入不合要求",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if(!isPasswordCorrect){
+					Toast.makeText(LoginActivity.this, "密码输入不合要求", Toast.LENGTH_SHORT).show();
+				}
+				new LoginTask().execute(phonenumber+","+password);
+			}
+		});
+		registButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this,RegistActivity.class);
+				registButton.setTextColor(Color.parseColor("#AA3411"));
+				startActivity(intent);
+			}
+		});
+		isRememberCB = (CheckBox)findViewById(R.id.check_remember);
+		isRememberCB.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if(isChecked==false){
+					helper.remove("id");
+					helper.remove("telephone");
+					helper.remove("password");
+				}
+			}
+			
+		});
+	}
+	public void setActionBarLayout(int layoutId){
+		ActionBar actionBar = getActionBar();
+		if(actionBar != null){
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+			LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
+			View view =inflater.inflate(layoutId, null);
+			registButton = (Button)view.findViewById(R.id.text_regist);
+			backIV = (ImageView)view.findViewById(R.id.back);
+			backIV.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+				}
+			});
+			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+			actionBar.setCustomView(view,params);
+		}
+	}
+	class LoginTask extends AsyncTask<String,Void,String>{
+		protected String doInBackground(String... params) {
+			JSONObject requestJSON = new JSONObject();
+			String[] requestStrings = params[0].split(",");
+			try {
+				requestJSON.put("tel",requestStrings[0]);
+				requestJSON.put("passwd", requestStrings[1]);
+				String address = getResources().getString(R.string.server_port)+"/Wuxianhui/PrivateUserLogin.action";
+				HttpPost httpPost = new HttpPost(address);
+				httpPost.setEntity(new StringEntity(requestJSON.toString()));
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpResponse httpResponse = httpClient.execute(httpPost);
+				if (httpResponse.getStatusLine().getStatusCode() == 200) {
+					String responseString = EntityUtils.toString(httpResponse.getEntity());
+					JSONObject responseJSON = new JSONObject(responseString);
+					String idString =responseJSON.getString("id");
+					return idString;
+				}else{
+					return "连接失败";
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "json异常";
+		}
+		protected void onPostExecute(String result) {
+			Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+			helper.putValue("id", result);
+			helper.putValue("telephone", phonenumberET.getText().toString().trim());
+			helper.putValue("password", passwordET.getText().toString().trim());
+		}
+	}
+}
