@@ -41,7 +41,6 @@ public class LoginActivity extends Activity {
 	EditText passwordET;
 	Button loginButton;
 	Button registButton;
-	ImageView backIV;
 	CheckBox isRememberCB;
 	SPHelper helper;
 	boolean isPhoneCorrect=false;
@@ -103,6 +102,8 @@ public class LoginActivity extends Activity {
 					Toast.makeText(LoginActivity.this, "密码输入不合要求", Toast.LENGTH_SHORT).show();
 				}
 				new LoginTask().execute(phonenumber+","+password);
+				Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+				startActivity(intent);
 			}
 		});
 		registButton.setOnClickListener(new View.OnClickListener() {
@@ -133,14 +134,6 @@ public class LoginActivity extends Activity {
 			LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
 			View view =inflater.inflate(layoutId, null);
 			registButton = (Button)view.findViewById(R.id.text_regist);
-			backIV = (ImageView)view.findViewById(R.id.back);
-			backIV.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				}
-			});
 			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 			actionBar.setCustomView(view,params);
 		}
