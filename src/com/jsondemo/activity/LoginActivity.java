@@ -29,8 +29,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsondemo.tools.SPHelper;
@@ -43,8 +41,6 @@ public class LoginActivity extends Activity {
 	Button registButton;
 	CheckBox isRememberCB;
 	SPHelper helper;
-	boolean isPhoneCorrect=false;
-	boolean isPasswordCorrect=false;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
@@ -54,6 +50,7 @@ public class LoginActivity extends Activity {
 		passwordET = (EditText)findViewById(R.id.password_login);
 		if(helper.getValue("telephone")!=null){
 			phonenumberET.setText(helper.getValue("telephone"));
+			passwordET.setText(helper.getValue("password"));
 		}
 		phonenumberET.addTextChangedListener(new TextWatcher(){
 			public void beforeTextChanged(CharSequence s, int start, int count,
@@ -63,11 +60,8 @@ public class LoginActivity extends Activity {
 					int count) {
 			}
 			public void afterTextChanged(Editable s) {
-				String phonenumber = phonenumberET.getText().toString().trim();
-				if(!phonenumber.matches("[1][358]\\d{9}")){
+				if(!phonenumberET.getText().toString().matches("[1][358]\\d{9}")){
 					phonenumberET.setError("请输入正确的11位手机好码");
-				}else{
-					isPhoneCorrect=true;
 				}
 			}
 			
@@ -80,11 +74,8 @@ public class LoginActivity extends Activity {
 					int count) {
 			}
 			public void afterTextChanged(Editable s) {
-				String password = passwordET.getText().toString().trim();
-				if(!(password.length()>=6)){
+				if(!(passwordET.getText().toString().trim().length()>=6)){
 					passwordET.setError("请输入长度超过6位的密码");
-				}else{
-					isPasswordCorrect=true;
 				}
 			}
 			
@@ -94,16 +85,14 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				String phonenumber = phonenumberET.getText().toString().trim();
 				String password = passwordET.getText().toString().trim();
-				if(!isPhoneCorrect){
+				if(!phonenumber.matches("[1][358]\\d{9}")){
 					Toast.makeText(LoginActivity.this,"手机号码输入不合要求",Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if(!isPasswordCorrect){
+				if(!(password.length()>=6)){
 					Toast.makeText(LoginActivity.this, "密码输入不合要求", Toast.LENGTH_SHORT).show();
 				}
 				new LoginTask().execute(phonenumber+","+password);
-				Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-				startActivity(intent);
 			}
 		});
 		registButton.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +134,7 @@ public class LoginActivity extends Activity {
 			try {
 				requestJSON.put("tel",requestStrings[0]);
 				requestJSON.put("passwd", requestStrings[1]);
-				String address = getResources().getString(R.string.server_port)+"/Wuxianhui/PrivateUserLogin.action";
+				String address = getResources().getString(R.string.server_port)+"/PrivateUserLogin.action";
 				HttpPost httpPost = new HttpPost(address);
 				httpPost.setEntity(new StringEntity(requestJSON.toString()));
 				HttpClient httpClient = new DefaultHttpClient();
@@ -170,10 +159,19 @@ public class LoginActivity extends Activity {
 			return "json异常";
 		}
 		protected void onPostExecute(String result) {
-			Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+			if(result.equals("err10002")){
+				Toast.makeText(LoginActivity.this, "输入的密码不正确", Toast.LENGTH_SHORT).show();
+				return;
+			}else if(result.equals("err10003")){
+				Toast.makeText(LoginActivity.this, "输入的手机号还未注册", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());
+			Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 }

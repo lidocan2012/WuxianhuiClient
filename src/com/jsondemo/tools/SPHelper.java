@@ -25,8 +25,8 @@ public class SPHelper {
 		editor.commit();
 	}
 	public void putValue(String key,String value){
-		editor.putString(key, null);
-		editor.toString();
+		editor.putString(key, value);
+		editor.commit();
 	}
 	public String getValue(String key){
 		return sp.getString(key, null);

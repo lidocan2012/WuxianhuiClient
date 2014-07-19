@@ -193,11 +193,12 @@ public class RegistActivity extends Activity {
 			try {
 				requestJSON.put("tel",requestStrings[0]);
 				requestJSON.put("passwd", requestStrings[1]);
-				String address = getResources().getString(R.string.server_port)+"/Wuxianhui/PrivateUserRegiste.action";
+				String address = getResources().getString(R.string.server_port)+"/PrivateUserRegiste.action";
 				HttpPost httpPost = new HttpPost(address);
 				httpPost.setEntity(new StringEntity(requestJSON.toString()));
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpResponse httpResponse = httpClient.execute(httpPost);
+				System.out.println(httpResponse.getStatusLine().getStatusCode());
 				if (httpResponse.getStatusLine().getStatusCode() == 200) {
 					String responseString = EntityUtils.toString(httpResponse.getEntity());
 					JSONObject responseJSON = new JSONObject(responseString);
@@ -218,10 +219,17 @@ public class RegistActivity extends Activity {
 			return "json异常";
 		} 
 		protected void onPostExecute(String result) {
-			Toast.makeText(RegistActivity.this, result, Toast.LENGTH_SHORT).show();
+			if(result.equals("err10001")){
+				Toast.makeText(RegistActivity.this,"手机号已经注册过了", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			Toast.makeText(RegistActivity.this,"注册成功", Toast.LENGTH_SHORT).show();
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());
+			Intent intent = new Intent(RegistActivity.this,LoginActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 		}
 	}
 	class SmsContent extends ContentObserver {  
