@@ -31,6 +31,7 @@ public class MainActivity extends FragmentActivity {
                 transaction.commit();
             }
         });
+        radioGroup.check(1);
     }
     public boolean onKeyDown(int keyCode, KeyEvent event){  
         if (keyCode == KeyEvent.KEYCODE_BACK ){
