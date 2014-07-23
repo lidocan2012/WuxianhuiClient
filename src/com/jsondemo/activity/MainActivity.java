@@ -33,7 +33,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
         radioGroup.check(1);
-        radioGroup.setVisibility(View.GONE);
     }
     public boolean onKeyDown(int keyCode, KeyEvent event){  
         if (keyCode == KeyEvent.KEYCODE_BACK ){

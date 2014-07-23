@@ -126,10 +126,13 @@ public class LoginActivity extends Activity {
 		});
 		connManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(connManager.getActiveNetworkInfo()==null){
+			AppController.getInstance().setConnInternet(false);
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("网络连接未打开");
 			builder.setMessage("无线慧系统能为您提供免费的WI-FI,但是在这之前需要用少量的流量用于登录身份认证");
 			builder.create().show();
+		}else{
+			AppController.getInstance().setConnInternet(true);
 		}
 	}
 	public void setActionBarLayout(int layoutId){

@@ -10,10 +10,10 @@
             android:bottomRightRadius="5dip"/>  
       </shape>  
    </item>  
-   <item android:top="1px" android:bottom="1px" android:left="1px" android:right="1px">  
+   <item >  
      <shape>  
         <gradient   
-            android:startColor="@color/faint_yellow" android:endColor="@color/faint_orange"   
+            android:startColor="@color/faint_orange" android:endColor="@color/deep_yellow"   
             android:type="linear" android:angle="90"  
             android:centerX="0.5" android:centerY="0.5" />  
         <corners    

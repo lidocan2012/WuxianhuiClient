@@ -10,34 +10,52 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
-
-    <RadioGroup
-        android:id="@+id/rg_tab"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/actionbar_background">
+        android:layout_weight="1" />
+	<FrameLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	    <RadioGroup
+        	android:id="@+id/rg_tab"
+        	android:orientation="horizontal"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:background="@drawable/actionbar_background">
 
-        <RadioButton
-            style="@style/weibo_tab"
-            android:drawableTop="@drawable/home"
-            android:text="可用WIFI" />
+        	<RadioButton
+           	 	style="@style/weibo_tab"
+            	android:drawableTop="@drawable/lock"
+           	 	android:text="门户" />
 
-        <RadioButton
-            style="@style/weibo_tab"
-            android:drawableTop="@drawable/lock"
-            android:text="访问历史" />
+        	<RadioButton
+            	style="@style/weibo_tab"
+            	android:drawableTop="@drawable/lock"
+            	android:text="商务" />
 
-        <RadioButton
-            style="@style/weibo_tab"
-            android:drawableTop="@drawable/lock"
-            android:text="WSP搜索" />
+        	<RadioButton
+            	style="@style/weibo_tab"
+            	android:drawableTop="@drawable/lock"
+            	android:text="WSP搜索" />
 
-        <RadioButton
-            style="@style/weibo_tab"
-            android:drawableTop="@drawable/user"
-            android:text="我的" />
-    </RadioGroup>
+        	<RadioButton
+            	style="@style/weibo_tab"
+            	android:drawableTop="@drawable/lock"
+            	android:text="我的" />
+    	</RadioGroup>
+    	<TextView
+        	android:id="@+id/main_tab_new_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="1dip"
+            android:background="@drawable/tab_unread_bg"
+            android:gravity="center"
+            android:text="1"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textSize="10sp"
+            android:visibility="visible" />
+	</FrameLayout>
+    
 </LinearLayout>
