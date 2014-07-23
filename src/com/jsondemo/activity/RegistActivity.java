@@ -41,6 +41,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jsondemo.tools.AppController;
 import com.jsondemo.tools.SPHelper;
 
 public class RegistActivity extends Activity {
@@ -147,6 +148,10 @@ public class RegistActivity extends Activity {
 			public void onClick(View v) {
 				String phonenumber = phonenumberET.getText().toString().trim();
 				String password = passwordET.getText().toString().trim();
+				if(!AppController.getInstance().isConnInternet()){
+					Toast.makeText(RegistActivity.this,"未能连接到网络", Toast.LENGTH_LONG).show();
+					return;
+				}
 				if(!isPhoneCorrect){
 					Toast.makeText(RegistActivity.this,"输入手机号码不合要求",Toast.LENGTH_SHORT).show();
 					return;
@@ -247,7 +252,7 @@ public class RegistActivity extends Activity {
 	        super.onChange(selfChange);  
 	        //读取收件箱中指定号码的短信  
 	        cursor = managedQuery(Uri.parse("content://sms/inbox"), new String[]{"_id", "address", "read", "body"},  
-	                " address=? and read=?", new String[]{"1065811201", "0"}, "_id desc");//按id排序，如果按date排序的话，修改手机时间后，读取的短信就不准了  
+	                " address=? and read=?", new String[]{"106900801834", "0"}, "_id desc");//按id排序，如果按date排序的话，修改手机时间后，读取的短信就不准了  
 	        
 	        if (cursor != null && cursor.getCount() > 0) {  
 	            ContentValues values = new ContentValues();  

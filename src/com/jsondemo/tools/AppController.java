@@ -12,6 +12,7 @@ public class AppController extends Application{
 	public static final String TAG = AppController.class.getSimpleName();
 	private RequestQueue requestQueue;
 	private ImageLoader imageLoader;
+	private boolean isConnInternet;
 	
 	private static AppController instance;
 	
@@ -54,6 +55,14 @@ public class AppController extends Application{
 		if(requestQueue != null){
 			requestQueue.cancelAll(TAG);
 		}
+	}
+
+	public boolean isConnInternet() {
+		return isConnInternet;
+	}
+
+	public void setConnInternet(boolean isConnInternet) {
+		this.isConnInternet = isConnInternet;
 	}
 	
 	

@@ -15,8 +15,12 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,6 +35,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jsondemo.tools.AppController;
 import com.jsondemo.tools.SPHelper;
 
 public class LoginActivity extends Activity {
@@ -41,6 +46,7 @@ public class LoginActivity extends Activity {
 	Button registButton;
 	CheckBox isRememberCB;
 	SPHelper helper;
+	ConnectivityManager connManager;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
@@ -92,6 +98,10 @@ public class LoginActivity extends Activity {
 				if(!(password.length()>=6)){
 					Toast.makeText(LoginActivity.this, "密码输入不合要求", Toast.LENGTH_SHORT).show();
 				}
+				if(!AppController.getInstance().isConnInternet()){
+					Toast.makeText(LoginActivity.this,"未能连接到网络", Toast.LENGTH_LONG).show();
+					return;
+				}
 				new LoginTask().execute(phonenumber+","+password);
 			}
 		});
@@ -114,6 +124,13 @@ public class LoginActivity extends Activity {
 			}
 			
 		});
+		connManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(connManager.getActiveNetworkInfo()==null){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("网络连接未打开");
+			builder.setMessage("无线慧系统能为您提供免费的WI-FI,但是在这之前需要用少量的流量用于登录身份认证");
+			builder.create().show();
+		}
 	}
 	public void setActionBarLayout(int layoutId){
 		ActionBar actionBar = getActionBar();

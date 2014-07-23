@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
         radioGroup.check(1);
+        radioGroup.setVisibility(View.GONE);
     }
     public boolean onKeyDown(int keyCode, KeyEvent event){  
         if (keyCode == KeyEvent.KEYCODE_BACK ){

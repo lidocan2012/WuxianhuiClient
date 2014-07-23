@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.jsondemo.tools.AppController;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -17,18 +22,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RadioGroup;
 
 public class AvilableWifiFragment extends Fragment {
 	private ViewPager viewPager; // android-support-v4中的滑动组件
-	private List<ImageView> imageViews; // 滑动的图片集合
-
-	private int[] imageResId; // 图片ID
+	private List<NetworkImageView> imageViews; // 滑动的图片集合
 	private List<View> dots; // 图片标题正文的那些点
 	private int currentItem = 0; // 当前图片的索引号
-
-	// An ExecutorService that can schedule commands to run after a given delay,or to execute periodically.
-	private ScheduledExecutorService scheduledExecutorService;
-
+	private String[] imageUrls = new String[]{
+			"http://www.maxcoo.com.cn/mxhm/msj/multi/pix/mxc201031514931865158.jpg",
+			"http://www.7qsj.cn/uploads/allimg/100514/1430243D6-0.jpg",
+			"http://pic17.nipic.com/20111020/1365591_133021352000_2.jpg",
+			"http://pic17.nipic.com/20111020/1365591_132501134000_2.jpg",
+			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
+	};
+	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	// 切换当前显示的图片
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -40,17 +48,21 @@ public class AvilableWifiFragment extends Fragment {
 	}
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		View view = inflater.inflate(R.layout.fragment_avilable_wifi,container,false);
-		imageResId = new int[] { R.drawable.a, R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e };
-		//titles = new String[imageResId.length];
-		imageViews = new ArrayList<ImageView>();
+		imageViews = new ArrayList<NetworkImageView>();
 
 		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(getActivity());
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-			imageViews.add(imageView);
+		for (int i = 0; i < imageUrls.length; i++) {
+			NetworkImageView nimageView = new NetworkImageView(getActivity());
+			nimageView.setImageUrl(imageUrls[i], imageLoader);
+			nimageView.setScaleType(ScaleType.FIT_CENTER);
+			imageViews.add(nimageView);
 		}
+		imageViews.get(imageUrls.length-1).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				RadioGroup radioGroup = (RadioGroup) getActivity().findViewById(R.id.rg_tab);
+				radioGroup.setVisibility(View.VISIBLE);
+			}
+		});
 		dots = new ArrayList<View>();
 		dots.add(view.findViewById(R.id.v_dot0));
 		dots.add(view.findViewById(R.id.v_dot1));
@@ -64,26 +76,10 @@ public class AvilableWifiFragment extends Fragment {
 		return view;
 	}
 	public void onStart() {
-		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-		// 当Activity显示出来后，每三秒钟切换一次图片显示
-		scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 3, 3, TimeUnit.SECONDS);
 		super.onStart();
 	}
 	public void onStop() {
-		// 当Activity不可见的时候停止切换
-		scheduledExecutorService.shutdown();
 		super.onStop();
-	}
-	private class ScrollTask implements Runnable {
-
-		public void run() {
-			synchronized (viewPager) {
-				System.out.println("currentItem: " + currentItem);
-				currentItem = (currentItem + 1) % imageViews.size();
-				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
-			}
-		}
-
 	}
 	private class MyPageChangeListener implements OnPageChangeListener {
 		private int oldPosition = 0;
@@ -109,7 +105,7 @@ public class AvilableWifiFragment extends Fragment {
 	}
 	private class MyAdapter extends PagerAdapter {
 		public int getCount() {
-			return imageResId.length;
+			return imageUrls.length;
 		}
 		public Object instantiateItem(View arg0, int arg1) {
 			((ViewPager) arg0).addView(imageViews.get(arg1));

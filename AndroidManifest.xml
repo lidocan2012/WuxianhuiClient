@@ -9,7 +9,9 @@
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.READ_SMS"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>  
     <application
         android:name="com.jsondemo.tools.AppController"
         android:allowBackup="true"
@@ -35,6 +37,9 @@
             android:name="com.jsondemo.activity.RegistActivity"
             android:label="@string/title_activity_regist">
         </activity>
-    </application>
-
+        <receiver android:name="com.jsondemo.tools.ConnectionChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>    </application>
 </manifest>
