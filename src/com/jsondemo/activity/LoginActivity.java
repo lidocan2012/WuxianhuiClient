@@ -129,7 +129,7 @@ public class LoginActivity extends Activity {
 			AppController.getInstance().setConnInternet(false);
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("网络连接未打开");
-			builder.setMessage("无线慧系统能为您提供免费的WI-FI,但是在这之前需要用少量的流量用于登录身份认证");
+			builder.setMessage("无线慧系统能为您提供免费的wifi，但是在这之前需要用少量的流量用于登录身份认证。请打开数据流量和wifi");
 			builder.create().show();
 		}else{
 			AppController.getInstance().setConnInternet(true);
@@ -189,7 +189,7 @@ public class LoginActivity extends Activity {
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());
-			Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+			Intent intent = new Intent(LoginActivity.this,WelcomeActivity.class);
 			startActivity(intent);
 			finish();
 		}

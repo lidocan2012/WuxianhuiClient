@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AvilableWifiFragment extends Fragment {
+public class DoorFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-		View view = inflater.inflate(R.layout.fragment_avilable_wifi,container,false);
+		View view = inflater.inflate(R.layout.fragment_door,container,false);
 		return view;
 	}
 }

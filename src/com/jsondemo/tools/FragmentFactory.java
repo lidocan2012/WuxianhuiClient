@@ -1,7 +1,7 @@
 package com.jsondemo.tools;
 
-import com.jsondemo.activity.AvilableWifiFragment;
-import com.jsondemo.activity.HistoryFragment;
+import com.jsondemo.activity.DoorFragment;
+import com.jsondemo.activity.BusinessFragment;
 import com.jsondemo.activity.WspSeacherFragment;
 import com.jsondemo.activity.MyFragment;
 
@@ -12,10 +12,10 @@ public class FragmentFactory {
         Fragment fragment = null;
         switch (index) {
             case 1:
-                fragment = new AvilableWifiFragment();
+                fragment = new DoorFragment();
                 break;
             case 2:
-                fragment = new HistoryFragment();
+                fragment = new BusinessFragment();
                 break;
             case 3:
                 fragment = new WspSeacherFragment();
