@@ -1,4 +1,4 @@
-package com.jsondemo.activity;
+package com.wuxianhui.initactivity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -41,8 +41,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.jsondemo.tools.AppController;
-import com.jsondemo.tools.SPHelper;
+import com.jsondemo.activity.R;
+import com.wuxianhui.tools.AppController;
+import com.wuxianhui.tools.SPHelper;
 
 public class RegistActivity extends Activity {
 	EditText phonenumberET;

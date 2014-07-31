@@ -7,7 +7,6 @@
     <string name="btn_submit">提交</string>
     <string name="tv_default">显示返回值</string>
     <string name="menu_volley">volley请求</string>
-    
     <string name="title_activity_login">wuxianhui</string>
     <string name="login">登录</string>
     <string name="password_hint">请输入密码</string>
@@ -15,7 +14,6 @@
     <string name="regist">注册</string>
     <string name="password_confirm_hint">请再次输入密码</string>
     <string name="remember_me">记住我</string>
-    
     <string name="title_activity_regist">注册</string>
     <string name="telephone_number_hint">输入手机号码</string>
     <string name="send_vertification_code">接收验证码</string>
@@ -25,10 +23,12 @@
     <string name="server_port">http://192.168.1.131:8080/wuxianhuiServer</string>
     <string name="click_login_user">点击登录</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
-
     <string name="current_order">当前下单</string>
     <string name="i_will_order">我要下单</string>
     <string name="call_waiter">呼叫服务员</string>
     <string name="pay_bill">结账</string>
     <string name="bill_history">历史下单</string>
+    <string name="title_activity_place_order">我要下单</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

@@ -1,11 +1,13 @@
-package com.jsondemo.activity;
+package com.wuxianhui.initactivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.jsondemo.tools.AppController;
+import com.jsondemo.activity.R;
+import com.wuxianhui.mainactivity.MainActivity;
+import com.wuxianhui.tools.AppController;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,11 +82,9 @@ public class AdFragment extends Fragment{
 			dots.get(position).setBackgroundResource(R.drawable.dot_focused);
 			oldPosition = position;
 		}
-
 		public void onPageScrollStateChanged(int arg0) {
 
 		}
-
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 
 		}

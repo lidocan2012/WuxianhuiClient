@@ -1,9 +1,4 @@
-package com.jsondemo.tools;
-
-import com.jsondemo.activity.DoorFragment;
-import com.jsondemo.activity.BusinessFragment;
-import com.jsondemo.activity.WspSeacherFragment;
-import com.jsondemo.activity.MyFragment;
+package com.wuxianhui.mainactivity;
 
 import android.support.v4.app.Fragment;
 

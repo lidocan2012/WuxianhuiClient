@@ -1,4 +1,4 @@
-package com.jsondemo.activity;
+package com.wuxianhui.mainactivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.jsondemo.tools.FragmentFactory;
+import com.jsondemo.activity.R;
 
 public class MainActivity extends FragmentActivity {
     private FragmentManager fragmentManager;

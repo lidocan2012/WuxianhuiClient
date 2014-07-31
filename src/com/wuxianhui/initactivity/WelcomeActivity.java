@@ -1,4 +1,6 @@
-package com.jsondemo.activity;
+package com.wuxianhui.initactivity;
+
+import com.jsondemo.activity.R;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +24,8 @@ public class WelcomeActivity extends FragmentActivity {
 				fragmentTransaction = fragmentManager.beginTransaction();
 				AdFragment adFragment = new AdFragment();
 				fragmentTransaction.replace(R.id.welcome_content, adFragment);
+				fragmentTransaction.addToBackStack(null);
+				fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 				fragmentTransaction.commit();
 			}
 		});

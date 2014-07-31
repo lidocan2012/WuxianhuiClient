@@ -1,4 +1,6 @@
-package com.jsondemo.activity;
+package com.wuxianhui.mainactivity;
+
+import com.jsondemo.activity.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
