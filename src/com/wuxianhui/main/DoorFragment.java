@@ -1,4 +1,4 @@
-package com.wuxianhui.mainactivity;
+package com.wuxianhui.main;
 
 import com.jsondemo.activity.R;
 

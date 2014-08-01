@@ -1,4 +1,4 @@
-package com.wuxianhui.initactivity;
+package com.wuxianhui.init;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

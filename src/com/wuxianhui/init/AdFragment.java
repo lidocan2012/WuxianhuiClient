@@ -1,4 +1,4 @@
-package com.wuxianhui.initactivity;
+package com.wuxianhui.init;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.jsondemo.activity.R;
-import com.wuxianhui.mainactivity.MainActivity;
+import com.wuxianhui.main.MainActivity;
 import com.wuxianhui.tools.AppController;
 
 import android.content.Intent;
@@ -57,7 +57,9 @@ public class AdFragment extends Fragment{
 		}
 		imageViews.get(imageUrls.length-1).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(getActivity(),MainActivity.class));
+				Intent intent = new Intent(getActivity(),MainActivity.class);
+				intent.putExtra("menuString", ((WelcomeActivity) getActivity()).getMenuString());
+				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.in_anim, R.anim.out_anim);
 				getActivity().finish();
 			}

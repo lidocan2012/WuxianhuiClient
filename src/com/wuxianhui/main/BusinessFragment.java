@@ -1,4 +1,4 @@
-package com.wuxianhui.mainactivity;
+package com.wuxianhui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.jsondemo.activity.R;
-import com.wuxianhui.businessactivity.PlaceOrderActivity;
+import com.wuxianhui.business.PlaceOrderActivity;
 
 public class BusinessFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {

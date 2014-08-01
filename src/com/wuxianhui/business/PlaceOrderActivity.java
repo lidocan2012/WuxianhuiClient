@@ -1,4 +1,4 @@
-package com.wuxianhui.businessactivity;
+package com.wuxianhui.business;
 
 import com.jsondemo.activity.R;
 import android.os.Bundle;
