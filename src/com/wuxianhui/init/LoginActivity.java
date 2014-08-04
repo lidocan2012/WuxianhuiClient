@@ -13,10 +13,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,9 +23,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,8 +47,10 @@ public class LoginActivity extends Activity {
 	ConnectivityManager connManager;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_login);
-		setActionBarLayout(R.layout.actionbar_login_layout);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar_login_layout);
+		//setActionBarLayout(R.layout.actionbar_login_layout);
 		helper = new SPHelper(LoginActivity.this,"information");
 		phonenumberET = (EditText)findViewById(R.id.phone_number_login);
 		passwordET = (EditText)findViewById(R.id.password_login);
@@ -106,6 +105,7 @@ public class LoginActivity extends Activity {
 				new LoginTask().execute(phonenumber+","+password);
 			}
 		});
+		registButton = (Button)findViewById(R.id.text_regist);
 		registButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(LoginActivity.this,RegistActivity.class);
@@ -136,7 +136,8 @@ public class LoginActivity extends Activity {
 			AppController.getInstance().setConnInternet(true);
 		}
 	}
-	public void setActionBarLayout(int layoutId){
+	/**
+	 * public void setActionBarLayout(int layoutId){
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null){
 			actionBar.setDisplayShowHomeEnabled(false);
@@ -148,6 +149,8 @@ public class LoginActivity extends Activity {
 			actionBar.setCustomView(view,params);
 		}
 	}
+	 */
+	
 	class LoginTask extends AsyncTask<String,Void,String>{
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();

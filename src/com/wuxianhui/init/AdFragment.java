@@ -52,7 +52,6 @@ public class AdFragment extends Fragment{
 		for (int i = 0; i < imageUrls.length; i++) {
 			NetworkImageView nimageView = new NetworkImageView(getActivity());
 			nimageView.setImageUrl(imageUrls[i], imageLoader);
-			nimageView.setScaleType(ScaleType.FIT_XY);
 			imageViews.add(nimageView);
 		}
 		imageViews.get(imageUrls.length-1).setOnClickListener(new View.OnClickListener() {

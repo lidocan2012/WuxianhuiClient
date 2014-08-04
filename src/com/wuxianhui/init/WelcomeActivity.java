@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.jsondemo.activity.R;
 public class WelcomeActivity extends FragmentActivity {
@@ -77,7 +78,7 @@ public class WelcomeActivity extends FragmentActivity {
 			return "JSON“Ï≥£";
 		}
 		protected void onPostExecute(String result) {
-			
+			Toast.makeText(WelcomeActivity.this, result, Toast.LENGTH_SHORT).show();
 		}
 	}
 	public String getMenuString(){

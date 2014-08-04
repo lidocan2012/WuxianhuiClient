@@ -69,24 +69,26 @@
     <Button
         android:id="@+id/regist_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/telephone_vertification_code"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
         android:background="@drawable/bg_alibuybutton"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"
-        android:text="@string/regist" />
+        android:text="@string/regist"
+        android:textSize="22sp" />
 
     <Button
         android:id="@+id/send_vertification_code"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignBaseline="@+id/telephone_vertification_code"
         android:layout_alignBottom="@+id/telephone_vertification_code"
         android:layout_alignParentRight="true"
         android:background="@drawable/bg_alibuybutton"
         android:text="@string/send_vertification_code"
-        android:textColor="@color/blue" />
+        android:textColor="@color/blue"
+        android:textSize="18sp" />
 
 </RelativeLayout>

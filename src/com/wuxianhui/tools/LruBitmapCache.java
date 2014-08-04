@@ -1,9 +1,8 @@
 package com.wuxianhui.tools;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
-
+import android.support.v4.util.LruCache;
 import android.graphics.Bitmap;
-import android.util.LruCache;
 
 public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
 	public LruBitmapCache() {

@@ -3,6 +3,8 @@ package com.wuxianhui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,10 @@ public class BusinessFragment extends Fragment {
 		Button iWillOrderButton = (Button)view.findViewById(R.id.i_will_order);
 		iWillOrderButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				FragmentManager fm = ((MainActivity) getActivity()).getFm();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				ft.commit();
 				Intent intent = new Intent(getActivity(),PlaceOrderActivity.class);
 				startActivity(intent);
 			}

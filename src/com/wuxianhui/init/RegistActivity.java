@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -32,9 +31,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -62,8 +60,16 @@ public class RegistActivity extends Activity {
 	boolean isPasswordConfirmCorrect=false;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_regist);
-		setActionBarLayout(R.layout.actionbar_regist_layout);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar_regist_layout);
+		//setActionBarLayout(R.layout.actionbar_regist_layout);
+		ImageView backIV = (ImageView)findViewById(R.id.back);
+		backIV.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		phonenumberET = (EditText)findViewById(R.id.telephone_number_regist);
 		phonenumberET.addTextChangedListener(new TextWatcher(){
 			public void beforeTextChanged(CharSequence s, int start, int count,
@@ -173,7 +179,8 @@ public class RegistActivity extends Activity {
         //×¢²á¶ÌÐÅ±ä»¯¼àÌý
         this.getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, content);
 	}
-	public void setActionBarLayout(int layoutId){
+	/**
+	 * public void setActionBarLayout(int layoutId){
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null){
 			actionBar.setDisplayShowHomeEnabled(false);
@@ -183,15 +190,15 @@ public class RegistActivity extends Activity {
 			backIV = (ImageView)view.findViewById(R.id.back);
 			backIV.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					Intent intent = new Intent(RegistActivity.this,LoginActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
+					finish();
 				}
 			});
 			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 			actionBar.setCustomView(view,params);
 		}
 	}
+	 */
+	
 	class RegistTask extends AsyncTask<String,Void,String>{
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();

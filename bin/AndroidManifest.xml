@@ -26,12 +26,12 @@
         <activity
             android:name="com.wuxianhui.init.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/ActivityTheme_Light" >
+            android:theme="@style/WindowTitleTheme" >
         </activity>
         <activity
             android:name="com.wuxianhui.init.RegistActivity"
             android:label="@string/title_activity_regist"
-            android:theme="@style/ActivityTheme_Light" >
+            android:theme="@style/WindowTitleTheme" >
         </activity>
 
         <receiver android:name="com.wuxianhui.tools.ConnectionChangeReceiver" >
@@ -45,13 +45,13 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.wuxianhui.business.PlaceOrderActivity"
-            android:label="@string/title_activity_place_order" >
+            android:label="@string/title_activity_place_order"
+            android:theme="@style/WindowTitleTheme" >
         </activity>
     </application>
 
