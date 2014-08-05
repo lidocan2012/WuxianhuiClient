@@ -21,7 +21,7 @@
         android:src="@drawable/back" />
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/order_sum_bt"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
@@ -34,12 +34,13 @@
         android:id="@+id/order_sum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageButton1"
+        android:layout_alignLeft="@+id/order_sum_bt"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/tab_unread_bg"
         android:gravity="center"
         android:text="1"
         android:textColor="@color/white"
         android:textStyle="bold" />
+
 </RelativeLayout>

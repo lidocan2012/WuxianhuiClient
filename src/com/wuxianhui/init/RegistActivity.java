@@ -62,7 +62,7 @@ public class RegistActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_regist);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar_regist_layout);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar_regist_layout);
 		//setActionBarLayout(R.layout.actionbar_regist_layout);
 		ImageView backIV = (ImageView)findViewById(R.id.back);
 		backIV.setOnClickListener(new View.OnClickListener() {

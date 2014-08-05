@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_login);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar_login_layout);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar_login_layout);
 		//setActionBarLayout(R.layout.actionbar_login_layout);
 		helper = new SPHelper(LoginActivity.this,"information");
 		phonenumberET = (EditText)findViewById(R.id.phone_number_login);

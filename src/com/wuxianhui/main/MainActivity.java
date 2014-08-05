@@ -29,9 +29,9 @@ public class MainActivity extends FragmentActivity {
         fm = this.getSupportFragmentManager();
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         String menuString = getIntent().getStringExtra("menuString");
-        //if(menuString!=null&&!menuString.equals("")){
+        if(menuString!=null&&!menuString.equals("")){
         	setRadioGroup(menuString);
-        //}
+        }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fm.beginTransaction();
@@ -43,13 +43,13 @@ public class MainActivity extends FragmentActivity {
         radioGroup.check(1);
     }
     private void setRadioGroup(String menuString) {
-    	//if(menuString.contains("门户"))
+    	if(menuString.contains("门户"))
             addRadioButton(1,"门户",R.drawable.lock);
-    	//if(menuString.contains("商务"))
+    	if(menuString.contains("商务"))
             addRadioButton(2,"商务",R.drawable.lock);
-    	//if(menuString.contains("WSP搜索"))
+    	if(menuString.contains("WSP搜索"))
             addRadioButton(3,"WSP搜索",R.drawable.lock);
-    	//if(menuString.contains("我的"))
+    	if(menuString.contains("我的"))
             addRadioButton(4,"我的",R.drawable.lock);
 	}
 	public void addRadioButton(int id,String text,int drawableId){

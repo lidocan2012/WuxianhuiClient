@@ -53,6 +53,11 @@
             android:label="@string/title_activity_place_order"
             android:theme="@style/WindowTitleTheme" >
         </activity>
+        <activity
+            android:name="com.wuxianhui.business.CurrentOrderActivity"
+            android:label="@string/title_activity_current_order"
+            android:theme="@style/WindowTitleTheme" >
+        </activity>
     </application>
 
 </manifest>

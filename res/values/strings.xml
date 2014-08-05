@@ -30,5 +30,6 @@
     <string name="bill_history">历史下单</string>
     <string name="title_activity_place_order">我要下单</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="title_activity_current_order">当前下单</string>
+	<string name="a_order">来一份</string>
 </resources>

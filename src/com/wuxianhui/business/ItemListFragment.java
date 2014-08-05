@@ -1,5 +1,6 @@
 package com.wuxianhui.business;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -23,9 +24,12 @@ public class ItemListFragment extends ListFragment{
 			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
 	};
 	String[] prices = new String[]{"£§88","£§69","£§89","£§79","£§98"};
-	String[] dishNames = new String[]{"xxxxx","¬È∆≈∂π∏Ø","∏…π¯œ∫","—º¿œø«","∫Ï…’»‚"};
+	String[] dishNames = new String[]{"Ã„Ûo","¬È∆≈∂π∏Ø","∏…π¯œ∫","—º¿œø«","∫Ï…’»‚"};
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	LayoutInflater inflater =null;
+	public interface ListFragmentCallBack{  
+        public void onItemSelected(View view,int position,long id);  
+    } 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setListAdapter(new ListAdapter());
@@ -35,7 +39,8 @@ public class ItemListFragment extends ListFragment{
 		return inflater.inflate(R.layout.fragment_item_list, container, false);
 	}
 	public void onListItemClick(ListView parent, View v, int position, long id) {
-		
+		super.onListItemClick(parent, v, position, id);
+		((ListFragmentCallBack) getActivity()).onItemSelected(v,position,id);
 	}
 	class ListAdapter extends BaseAdapter{
 

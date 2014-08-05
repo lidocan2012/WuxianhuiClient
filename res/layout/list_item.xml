@@ -13,23 +13,16 @@
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_launcher"
         android:scaleType="fitXY" />
+
     <TextView
         android:id="@+id/price"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_image"
-        android:textSize="40sp"
-        android:textColor="@color/faint_orange"
         android:layout_toRightOf="@id/iv_image"
-        android:text="XXXXX" />
-
-    <ImageView
-        android:id="@+id/forward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/forward" />
+        android:text="XXXXX"
+        android:textColor="@color/faint_orange"
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/name"
