@@ -27,8 +27,9 @@ import com.jsondemo.activity.R;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
+	Long one = Long.valueOf(1L);
 	String menuString = "";
-	String wspid = 1+"";
+	String wspid = one.toString();
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

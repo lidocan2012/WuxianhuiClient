@@ -215,7 +215,7 @@ public class RegistActivity extends Activity {
 				if (httpResponse.getStatusLine().getStatusCode() == 200) {
 					String responseString = EntityUtils.toString(httpResponse.getEntity());
 					JSONObject responseJSON = new JSONObject(responseString);
-					String idString = "id="+responseJSON.getString("id");
+					String idString =responseJSON.getString("id");
 					return idString;
 				}else{
 					return "连接失败";
@@ -236,7 +236,7 @@ public class RegistActivity extends Activity {
 				Toast.makeText(RegistActivity.this,"手机号已经注册过了", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			Toast.makeText(RegistActivity.this,"注册成功", Toast.LENGTH_SHORT).show();
+			Toast.makeText(RegistActivity.this,result, Toast.LENGTH_SHORT).show();
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());
