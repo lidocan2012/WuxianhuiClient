@@ -1,12 +1,12 @@
 package com.wuxianhui.business;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,8 +28,8 @@ public class ItemListFragment extends ListFragment{
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	LayoutInflater inflater =null;
 	public interface ListFragmentCallBack{  
-        public void onItemSelected(View view,int position,long id);  
-    } 
+        public void onItemSelected(int position);  
+    }
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setListAdapter(new ListAdapter());
@@ -38,9 +38,16 @@ public class ItemListFragment extends ListFragment{
 		this.inflater = inflater;
 		return inflater.inflate(R.layout.fragment_item_list, container, false);
 	}
-	public void onListItemClick(ListView parent, View v, int position, long id) {
+	public void onListItemClick(ListView parent, View v, final int position, long id) {
 		super.onListItemClick(parent, v, position, id);
-		((ListFragmentCallBack) getActivity()).onItemSelected(v,position,id);
+		final ViewHolder holder= (ViewHolder)v.getTag();
+		holder.placeBT.setVisibility(View.VISIBLE);
+		holder.placeBT.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				holder.placeBT.setVisibility(View.INVISIBLE);
+				((ListFragmentCallBack) getActivity()).onItemSelected(position);
+			}
+		});
 	}
 	class ListAdapter extends BaseAdapter{
 
@@ -60,14 +67,15 @@ public class ItemListFragment extends ListFragment{
 				view = inflater.inflate(R.layout.list_item, null);
 				viewHolder = new ViewHolder();
 				viewHolder.nimageView=(NetworkImageView)view.findViewById(R.id.iv_image);
-				viewHolder.price=(TextView)view.findViewById(R.id.price);
-				viewHolder.name=(TextView)view.findViewById(R.id.name);
+				viewHolder.priceTV=(TextView)view.findViewById(R.id.price);
+				viewHolder.nameTV=(TextView)view.findViewById(R.id.name);
+				viewHolder.placeBT=(Button)view.findViewById(R.id.a_order);
 				view.setTag(viewHolder);
 			}else{
 				viewHolder = (ViewHolder)view.getTag();
 			}
-			viewHolder.name.setText(dishNames[position]);
-			viewHolder.price.setText(prices[position]);
+			viewHolder.nameTV.setText(dishNames[position]);
+			viewHolder.priceTV.setText(prices[position]);
 			viewHolder.nimageView.setImageUrl(imageUrls[position],imageLoader);
 			return view;
 		}
@@ -75,7 +83,8 @@ public class ItemListFragment extends ListFragment{
 	}
 	class ViewHolder{
 		NetworkImageView nimageView;
-		TextView name;
-		TextView price;
+		TextView nameTV;
+		TextView priceTV;
+		Button placeBT;
 	}
 }

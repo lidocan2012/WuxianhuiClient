@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -25,6 +26,7 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 	FragmentTransaction ft;
 	TextView orderSumTV;
 	TextView animBallTV;
+	int orderNum=0;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -34,7 +36,6 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 		ImageView backIV = (ImageView)findViewById(R.id.back);
 		orderSumTV = (TextView)findViewById(R.id.order_sum);
 		ImageButton orderSumBT = (ImageButton)findViewById(R.id.order_sum_bt);
-		animBallTV = (TextView)findViewById(R.id.anim_ball);
 		orderSumBT.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(PlaceOrderActivity.this,CurrentOrderActivity.class);
@@ -53,14 +54,11 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 	public TextView getOrderSumTV(){
 		return orderSumTV;
 	}
-	public void onItemSelected(View view, int position,long id) {
-		TextView priceTV = ((ViewHolder)view.getTag()).price;
-		int paddingTop = priceTV.getPaddingTop();
-		int paddingRight = priceTV.getPaddingRight()-animBallTV.getWidth();
-		int paddingbottom = priceTV.getPaddingBottom();
-		int paddingLeft = priceTV.getPaddingLeft()+priceTV.getWidth();
-		animBallTV.setPadding(paddingLeft, paddingTop, paddingRight, paddingbottom);
-		animBallTV.setVisibility(View.VISIBLE);
+	public void onItemSelected(int position) {
+		orderNum++;
+		orderSumTV.setText(orderNum+"");
+		orderSumTV.setVisibility(View.VISIBLE);
+		orderSumTV.startAnimation(AnimationUtils.loadAnimation(this, R.anim.jump_ainm));
 	}
 	public static void setLayout(View view,int x,int y){  
         MarginLayoutParams margin=new MarginLayoutParams(view.getLayoutParams());  

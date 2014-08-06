@@ -20,7 +20,7 @@
     <string name="vertification_code_hint">短信验证码</string>
     <string name="follow_rule">遵守无线慧服务规则，</string>
     <string name="confrim_password_hint">确认密码</string>
-    <string name="server_port">http://192.168.1.100:8080/wuxianhuiServer</string>
+    <string name="server_port">http://192.168.1.100:8080/Wuxianhui</string>
     <string name="click_login_user">点击登录</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="current_order">当前下单</string>
@@ -32,4 +32,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_current_order">当前下单</string>
 	<string name="a_order">来一份</string>
+	<string name="a_order_again">再来一份</string>
 </resources>

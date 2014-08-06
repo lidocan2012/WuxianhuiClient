@@ -19,8 +19,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_image"
+        android:layout_toLeftOf="@+id/a_order"
         android:layout_toRightOf="@id/iv_image"
-        android:text="XXXXX"
+        android:text="XXX"
         android:textColor="@color/faint_orange"
         android:textSize="40sp" />
 
@@ -32,5 +33,20 @@
         android:layout_alignTop="@+id/iv_image"
         android:text="xxxxx"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/a_order"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/price"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bg_alibuybutton"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/a_order"
+        android:textSize="22sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>
