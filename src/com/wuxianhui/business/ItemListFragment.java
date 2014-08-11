@@ -16,15 +16,9 @@ import com.jsondemo.activity.R;
 import com.wuxianhui.tools.AppController;
 
 public class ItemListFragment extends ListFragment{
-	String[] imageUrls = new String[]{
-			"http://www.maxcoo.com.cn/mxhm/msj/multi/pix/mxc201031514931865158.jpg",
-			"http://www.7qsj.cn/uploads/allimg/100514/1430243D6-0.jpg",
-			"http://pic17.nipic.com/20111020/1365591_133021352000_2.jpg",
-			"http://pic17.nipic.com/20111020/1365591_132501134000_2.jpg",
-			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
-	};
-	String[] prices = new String[]{"£§88","£§69","£§89","£§79","£§98"};
-	String[] dishNames = new String[]{"Ã„Ûo","¬È∆≈∂π∏Ø","∏…π¯œ∫","—º¿œø«","∫Ï…’»‚"};
+	String[] imageUrls;
+	String[] prices;
+	String[] dishNames;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	LayoutInflater inflater =null;
 	public interface ListFragmentCallBack{  
@@ -32,6 +26,9 @@ public class ItemListFragment extends ListFragment{
     }
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		imageUrls = ((PlaceOrderActivity)getActivity()).getImageUrls();
+		prices = ((PlaceOrderActivity)getActivity()).getPrices();
+		dishNames = ((PlaceOrderActivity)getActivity()).getDishNames();
 		this.setListAdapter(new ListAdapter());
 	}
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){

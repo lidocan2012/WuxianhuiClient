@@ -33,4 +33,7 @@
     <string name="title_activity_current_order">当前下单</string>
 	<string name="a_order">来一份</string>
 	<string name="a_order_again">再来一份</string>
+	<string name="will_commit">未提交</string>
+	<string name="commit">提交</string>
+	<string name="commited">已提交</string>
 </resources>

@@ -13,10 +13,9 @@ public class AppController extends Application{
 	private RequestQueue requestQueue;
 	private ImageLoader imageLoader;
 	private boolean isConnInternet;
-	
+	private OrderInformation orderInfo = new OrderInformation();
 	private static AppController instance;
 	
-	@Override
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
@@ -64,16 +63,9 @@ public class AppController extends Application{
 	public void setConnInternet(boolean isConnInternet) {
 		this.isConnInternet = isConnInternet;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public OrderInformation getOrderInfo() {
+		return orderInfo;
+	}
 	
 }

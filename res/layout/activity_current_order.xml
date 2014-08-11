@@ -1,11 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/will_commit" />
 
-</RelativeLayout>
+    <GridView
+        android:id="@+id/will_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2" >
+    </GridView>
+	<Button 
+	    android:id="@+id/commit_Button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="40dp"
+        android:textSize="20sp"
+        android:text="@string/commit"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:background="@drawable/bg_alibuybutton"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/commited" />
+	<GridView
+        android:id="@+id/commited"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2" />
+</LinearLayout>
