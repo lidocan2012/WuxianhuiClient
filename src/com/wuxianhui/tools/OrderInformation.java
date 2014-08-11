@@ -39,6 +39,19 @@ public class OrderInformation {
 		}
 		return -1;
 	}
+	public int commitedContains(int position){
+		for(int i=0;i<commitedOrders.size();i++){
+			if(position==commitedOrders.get(i).position)
+				return i;
+		}
+		return -1;
+	}
+	public void setWillCommit(int position ,int number){
+		int index = willCommitContains(position);
+		int olderNum = willCommitOrders.get(index).number;
+		willCommitOrders.get(index).setNumber(number);
+		willCommitNum+=(number-olderNum);
+	}
 	public void addWillCommit(int position) {
 		int index = willCommitContains(position);
 		if(index>=0){
@@ -48,6 +61,21 @@ public class OrderInformation {
 			willCommitOrders.add(new OrderMap(position,1));
 		}
 		willCommitNum++;
+	}
+	public void commit(){
+		for(int i=0;i<willCommitOrders.size();i++){
+			int index = commitedContains(willCommitOrders.get(i).position);
+			int number = willCommitOrders.get(i).number;
+			if(index>=0){
+				int olderNum = commitedOrders.get(index).getNumber();
+				commitedOrders.get(index).setNumber(number+olderNum);
+			}else{
+				commitedOrders.add(willCommitOrders.get(i));
+			}
+			willCommitOrders.remove(i);
+			willCommitNum-=number;
+			commitedNum+=number;
+		}
 	}
 	public class OrderMap{
 		int position;

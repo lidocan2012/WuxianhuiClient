@@ -29,7 +29,7 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 			"http://pic17.nipic.com/20111020/1365591_132501134000_2.jpg",
 			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
 	};
-	String[] prices = new String[]{"£§88","£§69","£§89","£§79","£§98"};
+	float[] prices = new float[]{88f,69f,89f,79f,98f};
 	String[] dishNames = new String[]{"Ã„∞Ú","¬È∆≈∂π∏Ø","∏…π¯œ∫","—º¿œø«","∫Ï…’»‚"};
 	OrderInformation orderInfo;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +61,16 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 			}
 		});
 	}
+	protected void onResume(){
+		super.onResume();
+		if(orderSumTV!=null){
+			orderSumTV.setText(orderInfo.getWillCommitNum()+"");
+		}
+	}
 	public String[] getImageUrls() {
 		return imageUrls;
 	}
-	public String[] getPrices() {
+	public float[] getPrices() {
 		return prices;
 	}
 	public String[] getDishNames() {

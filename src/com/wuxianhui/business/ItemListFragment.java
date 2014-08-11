@@ -17,7 +17,7 @@ import com.wuxianhui.tools.AppController;
 
 public class ItemListFragment extends ListFragment{
 	String[] imageUrls;
-	String[] prices;
+	float[] prices;
 	String[] dishNames;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	LayoutInflater inflater =null;
@@ -72,7 +72,7 @@ public class ItemListFragment extends ListFragment{
 				viewHolder = (ViewHolder)view.getTag();
 			}
 			viewHolder.nameTV.setText(dishNames[position]);
-			viewHolder.priceTV.setText(prices[position]);
+			viewHolder.priceTV.setText("гд"+prices[position]);
 			viewHolder.nimageView.setImageUrl(imageUrls[position],imageLoader);
 			return view;
 		}

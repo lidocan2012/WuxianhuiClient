@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -27,7 +29,7 @@ import com.wuxianhui.tools.OrderInformation.OrderMap;
 public class CurrentOrderActivity extends Activity {
 
 	String[] imageUrls;
-	String[] prices;
+	float[] prices;
 	String[] dishNames;
 	OrderInformation orderInfo;
 	LayoutInflater inflater;
@@ -40,7 +42,7 @@ public class CurrentOrderActivity extends Activity {
 		Intent intent = this.getIntent();
 		if(intent!=null){
 			imageUrls = intent.getStringArrayExtra("imageUrls");
-			prices = intent.getStringArrayExtra("prices");
+			prices = intent.getFloatArrayExtra("prices");
 			dishNames = intent.getStringArrayExtra("dishNames");
 		}
 		orderInfo = AppController.getInstance().getOrderInfo();
@@ -60,6 +62,7 @@ public class CurrentOrderActivity extends Activity {
 		});
 		commitBT.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				orderInfo.commit();
 			}
 		});
 	}
@@ -94,15 +97,34 @@ public class CurrentOrderActivity extends Activity {
 			}else{
 				holder = (WillCommitViewHolder) view.getTag();
 			}
-			holder.nameTV.setText(dishNames[position]);
-			holder.priceTV.setText(prices[position]);
+			final TextView nameTV= holder.nameTV;
+			nameTV.setText(dishNames[position]);
+			final TextView priceTV = holder.priceTV;
+			priceTV.setText("гд"+prices[position]);
 			holder.nimageView.setImageUrl(imageUrls[position], imageLoader);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(CurrentOrderActivity.this,R.layout.spinner_item,numbers); 
-			holder.orderNumSp.setAdapter(adapter); 
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(CurrentOrderActivity.this,R.layout.spinner_item,R.id.spinner_content,numbers);
+			adapter.setDropDownViewResource(R.layout.spinner_item_down);
+			holder.orderNumSp.setAdapter(adapter);
 			holder.orderNumSp.setSelection(number-1);
+			holder.orderNumSp.setOnItemSelectedListener(new OnItemSelectedListener(){
+				public void onItemSelected(AdapterView<?> parent, View view,int index, long id) {
+					int position = positionOfDish(nameTV.getText().toString());
+					orderInfo.setWillCommit(position, index+1);
+					priceTV.setText("гд"+(index+1)*prices[position]);
+				}
+				public void onNothingSelected(AdapterView<?> parent) {
+				}
+				
+			});
 			return view;
 		}
-		
+		public int positionOfDish(String dishName){
+			for(int i=0;i<dishNames.length;i++){
+				if(dishNames[i].equals(dishName))
+					return i;
+			}
+			return -1;
+		}
 	}
 	class WillCommitViewHolder{
 		NetworkImageView nimageView;

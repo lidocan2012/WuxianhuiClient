@@ -23,7 +23,7 @@
         android:layout_toRightOf="@id/iv_image"
         android:text="XXX"
         android:textColor="@color/faint_orange"
-        android:textSize="40sp" />
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
         android:id="@+id/name"
