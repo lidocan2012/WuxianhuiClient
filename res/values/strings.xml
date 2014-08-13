@@ -36,4 +36,5 @@
 	<string name="will_commit">未提交</string>
 	<string name="commit">提交</string>
 	<string name="commited">已提交</string>
+	<string name="delete">移除</string>
 </resources>

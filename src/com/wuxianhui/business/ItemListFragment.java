@@ -21,7 +21,7 @@ public class ItemListFragment extends ListFragment{
 	String[] dishNames;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	LayoutInflater inflater =null;
-	public interface ListFragmentCallBack{  
+	public interface ListFragmentCallBack{
         public void onItemSelected(int position);  
     }
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,18 @@ public class ItemListFragment extends ListFragment{
 	public void onListItemClick(ListView parent, View v, final int position, long id) {
 		super.onListItemClick(parent, v, position, id);
 		final ViewHolder holder= (ViewHolder)v.getTag();
-		holder.placeBT.setVisibility(View.VISIBLE);
-		holder.placeBT.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				holder.placeBT.setVisibility(View.INVISIBLE);
-				((ListFragmentCallBack) getActivity()).onItemSelected(position);
-			}
-		});
+		if(!(holder.placeBT.isShown())){
+			holder.placeBT.setVisibility(View.VISIBLE);
+			holder.placeBT.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					holder.placeBT.setVisibility(View.INVISIBLE);
+					((ListFragmentCallBack) getActivity()).onItemSelected(position);
+				}
+			});
+		}else{
+			holder.placeBT.setVisibility(View.GONE);
+		}
+		
 	}
 	class ListAdapter extends BaseAdapter{
 
@@ -74,6 +79,7 @@ public class ItemListFragment extends ListFragment{
 			viewHolder.nameTV.setText(dishNames[position]);
 			viewHolder.priceTV.setText("гд"+prices[position]);
 			viewHolder.nimageView.setImageUrl(imageUrls[position],imageLoader);
+			viewHolder.placeBT.setFocusable(false);
 			return view;
 		}
 		

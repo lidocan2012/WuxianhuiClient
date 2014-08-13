@@ -72,10 +72,16 @@ public class OrderInformation {
 			}else{
 				commitedOrders.add(willCommitOrders.get(i));
 			}
-			willCommitOrders.remove(i);
 			willCommitNum-=number;
 			commitedNum+=number;
 		}
+		willCommitOrders.clear();
+	}
+	public void willCommitDelete(int position) {
+		int index = willCommitContains(position);
+		int number = willCommitOrders.get(index).getNumber();
+		willCommitOrders.remove(index);
+		willCommitNum -= number;
 	}
 	public class OrderMap{
 		int position;

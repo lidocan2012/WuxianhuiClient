@@ -3,6 +3,8 @@ package com.wuxianhui.business;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ public class CurrentOrderActivity extends Activity {
 	OrderInformation orderInfo;
 	LayoutInflater inflater;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+	WillCommitGridAdapter willAdapter;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -52,8 +55,10 @@ public class CurrentOrderActivity extends Activity {
 		GridView willCommitGV = (GridView)findViewById(R.id.will_commit);
 		Button commitBT = (Button)findViewById(R.id.commit_Button);
 		GridView commitedGV = (GridView)findViewById(R.id.commited);
-		willCommitGV.setAdapter(new WillCommitGridAdapter());
-		commitedGV.setAdapter(new CommitedGridAdapter());
+		willAdapter =new WillCommitGridAdapter();
+		willCommitGV.setAdapter(willAdapter);
+		final CommitedGridAdapter comAdapter = new CommitedGridAdapter();
+		commitedGV.setAdapter(comAdapter);
 		titleTV.setText("当前下单");
 		backIV.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -63,6 +68,8 @@ public class CurrentOrderActivity extends Activity {
 		commitBT.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				orderInfo.commit();
+				willAdapter.notifyDataSetChanged();
+				comAdapter.notifyDataSetChanged();
 			}
 		});
 	}
@@ -80,7 +87,7 @@ public class CurrentOrderActivity extends Activity {
 		public View getView(int index, View convertView, ViewGroup parent) {
 			View view = convertView;
 			WillCommitViewHolder holder = null;
-			int position = willCommitInfo.get(index).getPosition();
+			final int position = willCommitInfo.get(index).getPosition();
 			int number = willCommitInfo.get(index).getNumber();
 			String[] numbers = new String[100];
 			for(int i=0;i<100;i++){
@@ -93,6 +100,7 @@ public class CurrentOrderActivity extends Activity {
 				holder.nameTV = (TextView)view.findViewById(R.id.will_dish_name);
 				holder.orderNumSp = (Spinner)view.findViewById(R.id.will_order_num);
 				holder.priceTV = (TextView)view.findViewById(R.id.will_price);
+				holder.deleteTV = (TextView)view.findViewById(R.id.delete);
 				view.setTag(holder);
 			}else{
 				holder = (WillCommitViewHolder) view.getTag();
@@ -116,6 +124,20 @@ public class CurrentOrderActivity extends Activity {
 				}
 				
 			});
+			holder.deleteTV.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					new AlertDialog.Builder(CurrentOrderActivity.this)
+						.setIcon(R.drawable.alert)
+						.setTitle("您确定要移除"+dishNames[position]+"?")
+						.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								orderInfo.willCommitDelete(position);
+								willAdapter.notifyDataSetChanged();
+							}
+						}).setNegativeButton("取消", null).create().show();
+						
+				}
+			});
 			return view;
 		}
 		public int positionOfDish(String dishName){
@@ -131,24 +153,47 @@ public class CurrentOrderActivity extends Activity {
 		TextView nameTV;
 		TextView priceTV;
 		Spinner orderNumSp;
+		TextView deleteTV;
 	}
 	class CommitedGridAdapter extends BaseAdapter{
+		ArrayList<OrderMap> commitedInfo = orderInfo.getCommitedOrders();
 		public int getCount() {
 			return orderInfo.getCommitedOrders().size();
 		}
 		public Object getItem(int position) {
-			return null;
+			return position;
 		}
 		public long getItemId(int position) {
-			return 0;
+			return position;
 		}
-		public View getView(int position, View convertView, ViewGroup parent) {
-			return null;
+		public View getView(int index, View convertView, ViewGroup parent) {
+			View view = convertView;
+			CommitedViewHolder holder = null;
+			int position = commitedInfo.get(index).getPosition();
+			int number = commitedInfo.get(index).getNumber();
+			if(convertView==null){
+				view = inflater.inflate(R.layout.commited_item, null);
+				holder = new CommitedViewHolder();
+				holder.nimageView = (NetworkImageView)view.findViewById(R.id.iv_image);
+				holder.nameTV = (TextView)view.findViewById(R.id.commited_dish_name);
+				holder.comNumTV = (TextView)view.findViewById(R.id.commited_order_num);
+				holder.priceTV = (TextView)view.findViewById(R.id.commited_price);
+				view.setTag(holder);
+			}else{
+				holder = (CommitedViewHolder) view.getTag();
+				holder.nimageView.setImageUrl(imageUrls[position], imageLoader);
+				holder.nameTV.setText(dishNames[position]);
+				holder.priceTV.setText("￥"+number*prices[position]);
+				holder.comNumTV.setText(number+"份");
+			}
+			
+			return view;
 		}
 	}
 	class CommitedViewHolder{
 		NetworkImageView nimageView;
 		TextView nameTV;
 		TextView priceTV;
+		TextView comNumTV;
 	}
 }

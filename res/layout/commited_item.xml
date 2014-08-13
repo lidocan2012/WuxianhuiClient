@@ -14,7 +14,7 @@
 	    android:src="@drawable/ic_launcher" />
 
 	<TextView
-	    android:id="@+id/will_dish_name"
+	    android:id="@+id/commited_dish_name"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/iv_image"
@@ -22,34 +22,25 @@
 	    android:text="dish name"
 	    android:textAppearance="?android:attr/textAppearanceLarge" />
 	<TextView
-	    android:id="@+id/will_price"
+	    android:id="@+id/commited_price"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignBottom="@+id/will_order_num"
+	    android:layout_alignBottom="@+id/commited_order_num"
 	    android:layout_alignRight="@+id/iv_image"
 	    android:text="price"
 	    android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textColor="@color/faint_orange" />
-
-	<Spinner
-	    android:id="@+id/will_order_num"
-	    style="@android:style/Widget.Holo.Spinner"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignLeft="@+id/will_dish_name"
-	    android:layout_below="@+id/will_dish_name"
-	    android:layout_toLeftOf="@+id/will_price" />
+	    android:textColor="@color/deep_gray" />
 
 	<TextView
-	    android:id="@+id/delete"
+	    android:id="@+id/commited_order_num"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignBaseline="@+id/will_dish_name"
-	    android:layout_alignBottom="@+id/will_dish_name"
-	    android:layout_toRightOf="@+id/will_dish_name"
-	    android:text="@string/delete"
-        android:textColor="@color/blue"
-        android:layout_marginLeft="20dp"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+	    android:layout_height="wrap_content"	
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textColor="@color/deep_gray"
+		android:textStyle="bold" 
+	    android:layout_alignLeft="@+id/commited_dish_name"
+	    android:layout_below="@+id/commited_dish_name"
+	    android:layout_toLeftOf="@+id/commited_price" />
+	
 
 </RelativeLayout>

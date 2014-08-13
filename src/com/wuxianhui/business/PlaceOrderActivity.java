@@ -66,6 +66,9 @@ public class PlaceOrderActivity extends FragmentActivity implements ListFragment
 		if(orderSumTV!=null){
 			orderSumTV.setText(orderInfo.getWillCommitNum()+"");
 		}
+		if(orderInfo.getWillCommitNum()==0){
+			orderSumTV.setVisibility(View.INVISIBLE);
+		}
 	}
 	public String[] getImageUrls() {
 		return imageUrls;
