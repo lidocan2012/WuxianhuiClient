@@ -27,9 +27,8 @@ import com.jsondemo.activity.R;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
-	Long one = Long.valueOf(1L);
+	String wspuserId = 1+"";
 	String menuString = "";
-	String wspid = one.toString();
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -38,7 +37,7 @@ public class WelcomeActivity extends FragmentActivity {
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				new WelcomeTask().execute(wspid);
+				new WelcomeTask().execute(wspuserId);
 				fragmentTransaction = fragmentManager.beginTransaction();
 				AdFragment adFragment = new AdFragment();
 				fragmentTransaction.replace(R.id.welcome_content, adFragment);
@@ -81,6 +80,9 @@ public class WelcomeActivity extends FragmentActivity {
 		protected void onPostExecute(String result) {
 			Toast.makeText(WelcomeActivity.this, result, Toast.LENGTH_SHORT).show();
 		}
+	}
+	public String getWspuserId(){
+		return wspuserId;
 	}
 	public String getMenuString(){
 		return menuString;

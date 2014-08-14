@@ -191,6 +191,7 @@ public class LoginActivity extends Activity {
 				return;
 			}
 			Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+			AppController.getInstance().setUserId(result);
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());

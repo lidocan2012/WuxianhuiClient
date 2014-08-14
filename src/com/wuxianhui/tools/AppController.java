@@ -13,6 +13,7 @@ public class AppController extends Application{
 	private RequestQueue requestQueue;
 	private ImageLoader imageLoader;
 	private boolean isConnInternet;
+	private String userId;
 	private OrderInformation orderInfo = new OrderInformation();
 	private static AppController instance;
 	
@@ -66,6 +67,14 @@ public class AppController extends Application{
 
 	public OrderInformation getOrderInfo() {
 		return orderInfo;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

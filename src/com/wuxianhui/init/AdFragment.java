@@ -20,6 +20,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 public class AdFragment extends Fragment{
@@ -27,13 +28,8 @@ public class AdFragment extends Fragment{
 	private List<NetworkImageView> imageViews; // 滑动的图片集合
 	private List<View> dots; // 图片标题正文的那些点
 	private int currentItem = 0; // 当前图片的索引号
-	private String[] imageUrls = new String[]{
-			"http://www.maxcoo.com.cn/mxhm/msj/multi/pix/mxc201031514931865158.jpg",
-			"http://www.7qsj.cn/uploads/allimg/100514/1430243D6-0.jpg",
-			"http://pic17.nipic.com/20111020/1365591_133021352000_2.jpg",
-			"http://pic17.nipic.com/20111020/1365591_132501134000_2.jpg",
-			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
-	};
+	String wspuserId;
+	private String[] imageUrls = new String[5];
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	// 切换当前显示的图片
 	private Handler handler = new Handler() {
@@ -46,12 +42,16 @@ public class AdFragment extends Fragment{
 	}
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		View view = inflater.inflate(R.layout.fragment_ad,container,false);
+		wspuserId = ((WelcomeActivity)getActivity()).getWspuserId();
+		for(int i=0;i<5;i++){
+			imageUrls[i]=getResources().getString(R.string.server_port)+"/wspusers/"+wspuserId+"/welcome/"+(i+1)+".jpg";
+		}
 		imageViews = new ArrayList<NetworkImageView>();
-
 		// 初始化图片资源
 		for (int i = 0; i < imageUrls.length; i++) {
 			NetworkImageView nimageView = new NetworkImageView(getActivity());
 			nimageView.setImageUrl(imageUrls[i], imageLoader);
+			nimageView.setScaleType(ImageView.ScaleType.FIT_XY);
 			imageViews.add(nimageView);
 		}
 		imageViews.get(imageUrls.length-1).setOnClickListener(new View.OnClickListener() {
