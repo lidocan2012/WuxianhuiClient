@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -52,13 +53,17 @@ public class CurrentOrderActivity extends Activity {
 		inflater =getLayoutInflater();
 		ImageView backIV = (ImageView)findViewById(R.id.back);
 		TextView titleTV = (TextView)findViewById(R.id.titleTV);
-		GridView willCommitGV = (GridView)findViewById(R.id.will_commit);
+		final MyGridView willCommitGV = (MyGridView)findViewById(R.id.will_commit);
 		Button commitBT = (Button)findViewById(R.id.commit_Button);
-		GridView commitedGV = (GridView)findViewById(R.id.commited);
+		if(orderInfo.getWillCommitNum()==0){
+			commitBT.setVisibility(View.GONE);
+		}
+		final MyGridView commitedGV = (MyGridView)findViewById(R.id.commited);
 		willAdapter =new WillCommitGridAdapter();
 		willCommitGV.setAdapter(willAdapter);
 		final CommitedGridAdapter comAdapter = new CommitedGridAdapter();
 		commitedGV.setAdapter(comAdapter);
+		comAdapter.notifyDataSetChanged();
 		titleTV.setText("当前下单");
 		backIV.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -196,4 +201,29 @@ public class CurrentOrderActivity extends Activity {
 		TextView priceTV;
 		TextView comNumTV;
 	}
+	public void setGridViewHeight(GridView gridView) {  
+        // get the list view adapter, so this function must be invoked after set the adapter.  
+        BaseAdapter gridAdapter = (BaseAdapter) gridView.getAdapter();  
+        if (gridAdapter == null) {  
+            return;  
+        }  
+          
+        int totalHeight = 0;  
+        // get the ListView count  
+        int count = gridAdapter.getCount();  
+        for (int i = 0; i < count; i++) {
+        	if(i%2==0){
+                View gridItem = gridAdapter.getView(i, null, gridView);  
+                // measure the child view  
+                gridItem.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));  
+                // calculate the total height of items  
+                totalHeight += gridItem.getMeasuredHeight(); 
+        	} 
+        }  
+          
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();  
+        // get divider height for all items and add the total height  
+        params.height = totalHeight;  
+        gridView.setLayoutParams(params);  
+    }  
 }

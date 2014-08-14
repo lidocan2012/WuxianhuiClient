@@ -61,7 +61,8 @@ public class MainActivity extends FragmentActivity {
         radioGroup.addView(radioButton);
         radioButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1.0f));
     }
-    public boolean onKeyDown(int keyCode, KeyEvent event){  
+	/**
+	 * public boolean onKeyDown(int keyCode, KeyEvent event){  
         if (keyCode == KeyEvent.KEYCODE_BACK ){
         	count++;
         	if(count==1){
@@ -72,6 +73,8 @@ public class MainActivity extends FragmentActivity {
         }
         return true;
     }
+	 */
+    
     public FragmentManager getFm(){
     	return fm;
     }

@@ -14,14 +14,12 @@
 	        android:layout_height="wrap_content"
 	        android:text="@string/will_commit" />
 	
-	    <GridView
+	    <com.wuxianhui.business.MyGridView
 	        android:id="@+id/will_commit"
 	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
+	        android:layout_height="wrap_content"
 	        android:numColumns="2"
-	    	android:background="@color/white"
-	    	android:layout_weight="1">
-	    </GridView>
+	    	android:background="@color/white" />
 		<Button 
 		    android:id="@+id/commit_Button"
 		    android:layout_width="wrap_content"
@@ -36,12 +34,11 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/commited" />
-		<GridView
+		<com.wuxianhui.business.MyGridView
 	        android:id="@+id/commited"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:numColumns="2"
-	        android:layout_weight="1"
 	    	android:background="@color/white" />
 	</LinearLayout>
 </ScrollView>
