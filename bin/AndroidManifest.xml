@@ -27,10 +27,6 @@
             android:name="com.wuxianhui.init.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/WindowTitleTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.wuxianhui.init.RegistActivity"
@@ -52,6 +48,10 @@
             android:name="com.wuxianhui.business.PlaceOrderActivity"
             android:label="@string/title_activity_place_order"
             android:theme="@style/WindowTitleTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.wuxianhui.business.CurrentOrderActivity"
