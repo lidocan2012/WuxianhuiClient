@@ -14,9 +14,10 @@ public class AppController extends Application{
 	private ImageLoader imageLoader;
 	private boolean isConnInternet;
 	private String userId;
+	private String wspId;
 	private OrderInformation orderInfo = new OrderInformation();
 	private static AppController instance;
-	
+	private GoodsInfo goodsInfo = new GoodsInfo();
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
@@ -76,5 +77,20 @@ public class AppController extends Application{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
+
+	public String getWspId() {
+		return wspId;
+	}
+
+	public void setWspId(String wspId) {
+		this.wspId = wspId;
+	}
+
+	public GoodsInfo getGoodsInfo() {
+		return goodsInfo;
+	}
+
+	public void setGoodsInfo(GoodsInfo goodsInfo) {
+		this.goodsInfo = goodsInfo;
+	}
 }

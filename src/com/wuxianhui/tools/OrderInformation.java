@@ -84,6 +84,7 @@ public class OrderInformation {
 		willCommitNum -= number;
 	}
 	public class OrderMap{
+		String goodsType;
 		int position;
 		int number;
 		public OrderMap(int position, int number) {
@@ -102,6 +103,12 @@ public class OrderInformation {
 		}
 		public void setNumber(int number) {
 			this.number = number;
+		}
+		public void setGoodsType(String goodsType){
+			this.goodsType=goodsType;
+		}
+		public String getGoodsType(){
+			return goodsType;
 		}
 	}
 }

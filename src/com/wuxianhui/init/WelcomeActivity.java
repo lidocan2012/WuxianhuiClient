@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.jsondemo.activity.R;
+import com.wuxianhui.tools.AppController;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
@@ -34,6 +35,7 @@ public class WelcomeActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
 		fragmentManager = this.getSupportFragmentManager();
+		AppController.getInstance().setWspId(wspuserId);
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
