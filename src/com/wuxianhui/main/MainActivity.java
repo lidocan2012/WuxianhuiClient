@@ -136,7 +136,7 @@ public class MainActivity extends FragmentActivity {
 						goodsClass.getPrices().add(price);
 						goodsClass.getImageUrls().add(imageUrl);
 					}
-					return "接收成功";
+					return goodsInfo.getGoodsTypes().toString();
 				}else{
 					return "连接失败";
 				}

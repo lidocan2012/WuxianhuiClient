@@ -21,23 +21,32 @@ import android.view.animation.TranslateAnimation;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsondemo.activity.R;
 import com.wuxianhui.business.ItemListFragment.ListFragmentCallBack;
 import com.wuxianhui.tools.AppController;
+import com.wuxianhui.tools.GoodsClass;
+import com.wuxianhui.tools.GoodsInfo;
 import com.wuxianhui.tools.OrderInformation;
 
 public class PlaceOrderActivity extends FragmentActivity implements OnClickListener,OnPageChangeListener,ListFragmentCallBack{
 	private static final String TAG = "ScrollMenu---->";
+	private static final int BASEID = 100;
 	/** 各菜单TextView控件 */
-	private TextView txtHead;
+	private TextView[] textViews;
+	/**
+	 * private TextView txtHead;
 	private TextView txtScie;
 	private TextView txtFina;
 	private TextView txtSpor;
+	 */
 	private TextView curTxt;
+	
 	/** 顶部横向ScrollView */
 	private HorizontalScrollView horiScroll;
+	private LinearLayout linearLayout;
 	private ViewPager vPager_Sc;
 	/** ViewPager内容数据列表 */
 	private ArrayList<Fragment> pageList;
@@ -55,6 +64,8 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 	FragmentTransaction ft;
 	TextView orderSumTV;
 	TextView animBallTV;
+	List<String> goodsTypes = AppController.getInstance().getGoodsInfo().getGoodsTypes();
+	List<GoodsClass> goodsClasses = AppController.getInstance().getGoodsInfo().getGoodsClasses();
 	String[] imageUrls = new String[]{
 			"http://www.maxcoo.com.cn/mxhm/msj/multi/pix/mxc201031514931865158.jpg",
 			"http://www.7qsj.cn/uploads/allimg/100514/1430243D6-0.jpg",
@@ -127,10 +138,21 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		orderSumTV.startAnimation(AnimationUtils.loadAnimation(this, R.anim.jump_ainm));
 	}
 	private void initView() {
+		textViews = new TextView[goodsTypes.size()];
 		horiScroll = (HorizontalScrollView) findViewById(R.id.horiScroll);
+		linearLayout = (LinearLayout)findViewById(R.id.linear_layout);
 		vPager_Sc = (ViewPager) findViewById(R.id.vPager_Sc);
 		imgTransBg = (ImageView) findViewById(R.id.imgTransBg);
-		txtHead = (TextView) findViewById(R.id.txtHead);
+		for(int i=0;i<textViews.length;i++){
+			textViews[i] = new TextView(this);
+			linearLayout.addView(textViews[i]);
+			textViews[i].setText(goodsTypes.get(i));
+			textViews[i].setId(BASEID+i);
+			textViews[i].setTextAppearance(this, R.style.scroll_text_style);
+			textViews[i].setOnClickListener(this);
+		}
+		/**
+		 * txtHead = (TextView) findViewById(R.id.txtHead);
 		txtScie = (TextView) findViewById(R.id.txtScie);
 		txtFina = (TextView) findViewById(R.id.txtFina);
 		txtSpor = (TextView) findViewById(R.id.txtSpor);
@@ -138,11 +160,13 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		txtScie.setOnClickListener(this);
 		txtFina.setOnClickListener(this);
 		txtSpor.setOnClickListener(this);
+		 */
+		
 		vPager_Sc.setOnPageChangeListener(this);
 		// 当前TextView默认为第一个
-		curTxt = txtHead;
+		curTxt = textViews[0];
 		// 设置默认位置的字体颜色为白色的选中效果
-		txtHead.setTextColor(getResources().getColor(R.color.white));
+		textViews[0].setTextColor(getResources().getColor(R.color.white));
 		// 获取手机屏幕宽度
 		disWidth = getWindowManager().getDefaultDisplay().getWidth();
 		Log.i(TAG, "手机屏幕宽度disWidth:" + disWidth);
@@ -219,7 +243,7 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 			 * 因为getLocationOnScreen()方法要等UI绘制完才能获取正确的值, 所以不能在onCreate()中直接计算,
 			 * 此处设置一个boolean标识,在第一次触动屏幕时获取一次
 			 */
-			if (curTxt == txtHead && !hasOffset) {
+			if (curTxt == textViews[0] && !hasOffset) {
 				// 获取第一个TextView的坐标值
 				int[] heaDlocal = new int[2];
 				curTxt.getLocationOnScreen(heaDlocal);
@@ -291,19 +315,22 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.txtHead:
+		int id = v.getId();
+		imgTransMod(textViews[id-BASEID]);
+		vPager_Sc.setCurrentItem(id-BASEID);
+		/**switch (v.getId()) {
+		case BASEID:
 			// 启动滑块移动动画
-			imgTransMod(txtHead);
+			imgTransMod(textViews[0]);
 			// 更新Page页
 			vPager_Sc.setCurrentItem(0);
 			break;
-		case R.id.txtScie:
-			imgTransMod(txtScie);
+		case BASEID+1:
+			imgTransMod(textViews[1]);
 			vPager_Sc.setCurrentItem(1);
 			break;
-		case R.id.txtFina:
-			imgTransMod(txtFina);
+		case BASEID+2:
+			imgTransMod(textViews[2]);
 			vPager_Sc.setCurrentItem(2);
 			break;
 		case R.id.txtSpor:
@@ -311,11 +338,16 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 			vPager_Sc.setCurrentItem(3);
 			break;
 		}
+		 * 
+		 */
+		
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		switch (arg0) {
+		textViews[arg0].performClick();
+		/**
+		 * switch (arg0) {
 		case 0:
 			// 直接关联点击事件
 			txtHead.performClick();
@@ -330,6 +362,8 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 			txtSpor.performClick();
 			break;
 		}
+		 */
+		
 	}
 
 	@Override
