@@ -1,5 +1,7 @@
 package com.wuxianhui.business;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -16,19 +18,26 @@ import com.jsondemo.activity.R;
 import com.wuxianhui.tools.AppController;
 
 public class ItemListFragment extends ListFragment{
-	String[] imageUrls;
-	float[] prices;
-	String[] dishNames;
+	int indexOfGoodsTypes;
+	List<String> imageUrls;
+	List<Double> prices;
+	List<String> dishNames;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+	String wspId = AppController.getInstance().getWspId();
 	LayoutInflater inflater =null;
+	public ItemListFragment(int indexOfGoodsTypes, List<String> imageUrls,
+			List<Double> prices, List<String> dishNames) {
+		super();
+		this.indexOfGoodsTypes = indexOfGoodsTypes;
+		this.imageUrls = imageUrls;
+		this.prices = prices;
+		this.dishNames = dishNames;
+	}
 	public interface ListFragmentCallBack{
-        public void onItemSelected(int position);  
+        public void onItemSelected(int indexOfGoodsType,int position);  
     }
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		imageUrls = ((PlaceOrderActivity)getActivity()).getImageUrls();
-		prices = ((PlaceOrderActivity)getActivity()).getPrices();
-		dishNames = ((PlaceOrderActivity)getActivity()).getDishNames();
 		this.setListAdapter(new ListAdapter());
 	}
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -43,7 +52,7 @@ public class ItemListFragment extends ListFragment{
 			holder.placeBT.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					holder.placeBT.setVisibility(View.INVISIBLE);
-					((ListFragmentCallBack) getActivity()).onItemSelected(position);
+					((ListFragmentCallBack) getActivity()).onItemSelected(indexOfGoodsTypes,position);
 				}
 			});
 		}else{
@@ -54,7 +63,7 @@ public class ItemListFragment extends ListFragment{
 	class ListAdapter extends BaseAdapter{
 
 		public int getCount() {
-			return imageUrls.length;
+			return imageUrls.size();
 		}
 		public Object getItem(int position) {
 			return position;
@@ -75,10 +84,11 @@ public class ItemListFragment extends ListFragment{
 				view.setTag(viewHolder);
 			}else{
 				viewHolder = (ViewHolder)view.getTag();
-			}
-			viewHolder.nameTV.setText(dishNames[position]);
-			viewHolder.priceTV.setText("гд"+prices[position]);
-			viewHolder.nimageView.setImageUrl(imageUrls[position],imageLoader);
+			}      
+			viewHolder.nameTV.setText(dishNames.get(position));
+			viewHolder.priceTV.setText("гд"+prices.get(position));
+			String url = getResources().getString(R.string.server_port)+"/wspusers/"+wspId+"/"+imageUrls.get(position);
+			viewHolder.nimageView.setImageUrl(url,imageLoader);
 			viewHolder.placeBT.setFocusable(false);
 			return view;
 		}

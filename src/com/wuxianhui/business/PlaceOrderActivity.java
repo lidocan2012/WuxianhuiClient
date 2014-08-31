@@ -131,7 +131,7 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 	public TextView getOrderSumTV(){
 		return orderSumTV;
 	}
-	public void onItemSelected(int position) {
+	public void onItemSelected(int indexOfGoodsType,int position) {
 		orderInfo.addWillCommit(position);
 		orderSumTV.setText(orderInfo.getWillCommitNum()+"");
 		orderSumTV.setVisibility(View.VISIBLE);
@@ -175,8 +175,11 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 	/** …Ë÷√ViewPager ˝æ›  ≈‰∆˜ */
 	private void setPageAdapter() {
 		pageList = new ArrayList<Fragment>();
-		for(int i=0;i<4;i++){
-			Fragment fragment = new ItemListFragment();
+		for(int i=0;i<goodsTypes.size();i++){
+			List<String> imageUrls =goodsClasses.get(i).getImageUrls();
+			List<String> goodsNames =goodsClasses.get(i).getDishNames();
+			List<Double> prices = goodsClasses.get(i).getPrices();
+			Fragment fragment = new ItemListFragment(i,imageUrls,prices,goodsNames);
 			pageList.add(fragment);
 		}
 		mAdapter = new ChatAdatper(fm,pageList);
