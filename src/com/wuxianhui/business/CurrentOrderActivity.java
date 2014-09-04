@@ -27,28 +27,19 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.jsondemo.activity.R;
 import com.wuxianhui.tools.AppController;
 import com.wuxianhui.tools.OrderInformation;
-import com.wuxianhui.tools.OrderInformation.OrderMap;
+import com.wuxianhui.tools.OrderInformation.OrderGoods;
 
 public class CurrentOrderActivity extends Activity {
-
-	String[] imageUrls;
-	float[] prices;
-	String[] dishNames;
 	OrderInformation orderInfo;
 	LayoutInflater inflater;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+	String wspId = AppController.getInstance().getWspId();
 	WillCommitGridAdapter willAdapter;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_current_order);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar_regist_layout);
-		Intent intent = this.getIntent();
-		if(intent!=null){
-			imageUrls = intent.getStringArrayExtra("imageUrls");
-			prices = intent.getFloatArrayExtra("prices");
-			dishNames = intent.getStringArrayExtra("dishNames");
-		}
 		orderInfo = AppController.getInstance().getOrderInfo();
 		inflater =getLayoutInflater();
 		ImageView backIV = (ImageView)findViewById(R.id.back);
@@ -79,7 +70,7 @@ public class CurrentOrderActivity extends Activity {
 		});
 	}
 	class WillCommitGridAdapter extends BaseAdapter{
-		ArrayList<OrderMap> willCommitInfo = orderInfo.getWillCommitOrders();
+		ArrayList<OrderGoods> willCommitInfo = orderInfo.getWillCommitOrders();
 		public int getCount() {
 			return orderInfo.getWillCommitOrders().size();
 		}
@@ -89,11 +80,13 @@ public class CurrentOrderActivity extends Activity {
 		public long getItemId(int position) {
 			return position;
 		}
-		public View getView(int index, View convertView, ViewGroup parent) {
+		public View getView(final int index, View convertView, ViewGroup parent) {
 			View view = convertView;
 			WillCommitViewHolder holder = null;
-			final int position = willCommitInfo.get(index).getPosition();
-			int number = willCommitInfo.get(index).getNumber();
+			final int number = willCommitInfo.get(index).getNumber();
+			final String goodsName = willCommitInfo.get(index).getGoodsName();
+			String url = getResources().getString(R.string.server_port)+"/wspusers/"+wspId+"/"+willCommitInfo.get(index).getImageUrl();
+			final double price = willCommitInfo.get(index).getPrice();
 			String[] numbers = new String[100];
 			for(int i=0;i<100;i++){
 				numbers[i]=(i+1)+"份";
@@ -111,19 +104,18 @@ public class CurrentOrderActivity extends Activity {
 				holder = (WillCommitViewHolder) view.getTag();
 			}
 			final TextView nameTV= holder.nameTV;
-			nameTV.setText(dishNames[position]);
+			nameTV.setText(goodsName);
 			final TextView priceTV = holder.priceTV;
-			priceTV.setText("￥"+prices[position]);
-			holder.nimageView.setImageUrl(imageUrls[position], imageLoader);
+			priceTV.setText("￥"+price);
+			holder.nimageView.setImageUrl(url, imageLoader);
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(CurrentOrderActivity.this,R.layout.spinner_item,R.id.spinner_content,numbers);
 			adapter.setDropDownViewResource(R.layout.spinner_item_down);
 			holder.orderNumSp.setAdapter(adapter);
 			holder.orderNumSp.setSelection(number-1);
 			holder.orderNumSp.setOnItemSelectedListener(new OnItemSelectedListener(){
-				public void onItemSelected(AdapterView<?> parent, View view,int index, long id) {
-					int position = positionOfDish(nameTV.getText().toString());
-					orderInfo.setWillCommit(position, index+1);
-					priceTV.setText("￥"+(index+1)*prices[position]);
+				public void onItemSelected(AdapterView<?> parent, View view,int num, long id) {
+					orderInfo.setWillCommit(index, num+1);
+					priceTV.setText("￥"+(num+1)*(price/number));
 				}
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
@@ -133,10 +125,10 @@ public class CurrentOrderActivity extends Activity {
 				public void onClick(View v) {
 					new AlertDialog.Builder(CurrentOrderActivity.this)
 						.setIcon(R.drawable.alert)
-						.setTitle("您确定要移除"+dishNames[position]+"?")
+						.setTitle("您确定要移除"+goodsName+"?")
 						.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
-								orderInfo.willCommitDelete(position);
+								orderInfo.willCommitDelete(index);
 								willAdapter.notifyDataSetChanged();
 							}
 						}).setNegativeButton("取消", null).create().show();
@@ -144,13 +136,6 @@ public class CurrentOrderActivity extends Activity {
 				}
 			});
 			return view;
-		}
-		public int positionOfDish(String dishName){
-			for(int i=0;i<dishNames.length;i++){
-				if(dishNames[i].equals(dishName))
-					return i;
-			}
-			return -1;
 		}
 	}
 	class WillCommitViewHolder{
@@ -161,7 +146,7 @@ public class CurrentOrderActivity extends Activity {
 		TextView deleteTV;
 	}
 	class CommitedGridAdapter extends BaseAdapter{
-		ArrayList<OrderMap> commitedInfo = orderInfo.getCommitedOrders();
+		ArrayList<OrderGoods> commitedInfo = orderInfo.getCommitedOrders();
 		public int getCount() {
 			return orderInfo.getCommitedOrders().size();
 		}
@@ -174,8 +159,10 @@ public class CurrentOrderActivity extends Activity {
 		public View getView(int index, View convertView, ViewGroup parent) {
 			View view = convertView;
 			CommitedViewHolder holder = null;
-			int position = commitedInfo.get(index).getPosition();
 			int number = commitedInfo.get(index).getNumber();
+			double price = commitedInfo.get(index).getPrice();
+			String goodsName = commitedInfo.get(index).getGoodsName();
+			String url = getResources().getString(R.string.server_port)+"/wspusers/"+wspId+"/"+commitedInfo.get(index).getImageUrl();
 			if(convertView==null){
 				view = inflater.inflate(R.layout.commited_item, null);
 				holder = new CommitedViewHolder();
@@ -186,9 +173,9 @@ public class CurrentOrderActivity extends Activity {
 				view.setTag(holder);
 			}else{
 				holder = (CommitedViewHolder) view.getTag();
-				holder.nimageView.setImageUrl(imageUrls[position], imageLoader);
-				holder.nameTV.setText(dishNames[position]);
-				holder.priceTV.setText("￥"+number*prices[position]);
+				holder.nimageView.setImageUrl(url, imageLoader);
+				holder.nameTV.setText(goodsName);
+				holder.priceTV.setText("￥"+price);
 				holder.comNumTV.setText(number+"份");
 			}
 			

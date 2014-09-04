@@ -36,12 +36,6 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 	private static final int BASEID = 100;
 	/** 各菜单TextView控件 */
 	private TextView[] textViews;
-	/**
-	 * private TextView txtHead;
-	private TextView txtScie;
-	private TextView txtFina;
-	private TextView txtSpor;
-	 */
 	private TextView curTxt;
 	
 	/** 顶部横向ScrollView */
@@ -66,15 +60,6 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 	TextView animBallTV;
 	List<String> goodsTypes = AppController.getInstance().getGoodsInfo().getGoodsTypes();
 	List<GoodsClass> goodsClasses = AppController.getInstance().getGoodsInfo().getGoodsClasses();
-	String[] imageUrls = new String[]{
-			"http://www.maxcoo.com.cn/mxhm/msj/multi/pix/mxc201031514931865158.jpg",
-			"http://www.7qsj.cn/uploads/allimg/100514/1430243D6-0.jpg",
-			"http://pic17.nipic.com/20111020/1365591_133021352000_2.jpg",
-			"http://pic17.nipic.com/20111020/1365591_132501134000_2.jpg",
-			"http://a3.att.hudong.com/18/94/05300000874931127768941945288.jpg"
-	};
-	float[] prices = new float[]{88f,69f,89f,79f,98f};
-	String[] dishNames = new String[]{"蹄膀","麻婆豆腐","干锅虾","鸭老壳","红烧肉"};
 	OrderInformation orderInfo;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,9 +78,6 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		orderSumBT.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(PlaceOrderActivity.this,CurrentOrderActivity.class);
-				intent.putExtra("imageUrls", imageUrls);
-				intent.putExtra("prices", prices);
-				intent.putExtra("dishNames",dishNames);
 				startActivity(intent);
 			}
 		});
@@ -116,15 +98,6 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 			orderSumTV.setVisibility(View.INVISIBLE);
 		}
 	}
-	public String[] getImageUrls() {
-		return imageUrls;
-	}
-	public float[] getPrices() {
-		return prices;
-	}
-	public String[] getDishNames() {
-		return dishNames;
-	}
 	public FragmentManager getFm(){
 		return fm;
 	}
@@ -132,7 +105,7 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		return orderSumTV;
 	}
 	public void onItemSelected(int indexOfGoodsType,int position) {
-		orderInfo.addWillCommit(position);
+		orderInfo.addWillCommit(indexOfGoodsType,position);
 		orderSumTV.setText(orderInfo.getWillCommitNum()+"");
 		orderSumTV.setVisibility(View.VISIBLE);
 		orderSumTV.startAnimation(AnimationUtils.loadAnimation(this, R.anim.jump_ainm));
@@ -151,17 +124,6 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 			textViews[i].setTextAppearance(this, R.style.scroll_text_style);
 			textViews[i].setOnClickListener(this);
 		}
-		/**
-		 * txtHead = (TextView) findViewById(R.id.txtHead);
-		txtScie = (TextView) findViewById(R.id.txtScie);
-		txtFina = (TextView) findViewById(R.id.txtFina);
-		txtSpor = (TextView) findViewById(R.id.txtSpor);
-		txtHead.setOnClickListener(this);
-		txtScie.setOnClickListener(this);
-		txtFina.setOnClickListener(this);
-		txtSpor.setOnClickListener(this);
-		 */
-		
 		vPager_Sc.setOnPageChangeListener(this);
 		// 当前TextView默认为第一个
 		curTxt = textViews[0];
@@ -321,52 +283,11 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		int id = v.getId();
 		imgTransMod(textViews[id-BASEID]);
 		vPager_Sc.setCurrentItem(id-BASEID);
-		/**switch (v.getId()) {
-		case BASEID:
-			// 启动滑块移动动画
-			imgTransMod(textViews[0]);
-			// 更新Page页
-			vPager_Sc.setCurrentItem(0);
-			break;
-		case BASEID+1:
-			imgTransMod(textViews[1]);
-			vPager_Sc.setCurrentItem(1);
-			break;
-		case BASEID+2:
-			imgTransMod(textViews[2]);
-			vPager_Sc.setCurrentItem(2);
-			break;
-		case R.id.txtSpor:
-			imgTransMod(txtSpor);
-			vPager_Sc.setCurrentItem(3);
-			break;
-		}
-		 * 
-		 */
-		
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
 		textViews[arg0].performClick();
-		/**
-		 * switch (arg0) {
-		case 0:
-			// 直接关联点击事件
-			txtHead.performClick();
-			break;
-		case 1:
-			txtScie.performClick();
-			break;
-		case 2:
-			txtFina.performClick();
-			break;
-		case 3:
-			txtSpor.performClick();
-			break;
-		}
-		 */
-		
 	}
 
 	@Override

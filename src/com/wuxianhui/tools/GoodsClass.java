@@ -5,9 +5,16 @@ import java.util.List;
 
 public class GoodsClass{
 	private String goodsType;
+	private List<Long> goodsIds = new ArrayList<Long>();
 	private List<String> imageUrls= new ArrayList<String>();
 	private List<Double> prices=new ArrayList<Double>();
 	private List<String> dishNames=new ArrayList<String>();
+	public List<Long> getGoodsIds() {
+		return goodsIds;
+	}
+	public void setGoodsIds(List<Long> goodsIds) {
+		this.goodsIds = goodsIds;
+	}
 	public String getGoodsType() {
 		return goodsType;
 	}

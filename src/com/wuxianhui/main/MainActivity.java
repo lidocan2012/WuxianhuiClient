@@ -121,6 +121,7 @@ public class MainActivity extends FragmentActivity {
 						String goodsName = obj.getString("goodsName");
 						double price = obj.getDouble("price");
 						String imageUrl = obj.getString("imageUrl");
+						Long goodsId = obj.getLong("goodsId");
 						int index =-1;
 						GoodsClass goodsClass;
 						if(goodsInfo.getGoodsTypes().contains(goodsType)){
@@ -135,6 +136,7 @@ public class MainActivity extends FragmentActivity {
 						goodsClass.getDishNames().add(goodsName);
 						goodsClass.getPrices().add(price);
 						goodsClass.getImageUrls().add(imageUrl);
+						goodsClass.getGoodsIds().add(goodsId);
 					}
 					return goodsInfo.getGoodsTypes().toString();
 				}else{
