@@ -26,6 +26,7 @@
 		    android:layout_height="40dp"
 	        android:textSize="20sp"
 	        android:text="@string/commit"
+	        android:layout_margin="20dp"
 	        android:layout_gravity="center_horizontal"
 	        android:paddingLeft="50dp"
 	        android:paddingRight="50dp"
@@ -40,5 +41,37 @@
 	        android:layout_height="wrap_content"
 	        android:numColumns="2"
 	    	android:background="@color/white" />
+
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_margin="20dp" >
+
+			<TextView
+			    android:id="@+id/total"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_alignParentRight="true"
+			    android:layout_alignParentTop="true"
+			    android:text="Large Text"
+	    		android:textColor="@color/faint_orange" 
+			    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+			<Button
+			    android:id="@+id/checkout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="40dp"
+		        android:textSize="20sp"
+			    android:layout_alignParentRight="true"
+			    android:layout_alignParentTop="true"
+			    android:layout_marginRight="45dp"
+		        android:paddingLeft="50dp"
+		        android:paddingRight="50dp"
+		        android:background="@drawable/bg_alibuybutton"
+			    android:text="@string/pay_bill" />
+
+		</RelativeLayout>
+
 	</LinearLayout>
 </ScrollView>

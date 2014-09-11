@@ -17,10 +17,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -46,6 +48,8 @@ public class CurrentOrderActivity extends Activity {
 		TextView titleTV = (TextView)findViewById(R.id.titleTV);
 		final MyGridView willCommitGV = (MyGridView)findViewById(R.id.will_commit);
 		Button commitBT = (Button)findViewById(R.id.commit_Button);
+		final TextView totalTV = (TextView)findViewById(R.id.total);
+		Button checkOutBT = (Button)findViewById(R.id.checkout);
 		if(orderInfo.getWillCommitNum()==0){
 			commitBT.setVisibility(View.GONE);
 		}
@@ -54,18 +58,56 @@ public class CurrentOrderActivity extends Activity {
 		willCommitGV.setAdapter(willAdapter);
 		final CommitedGridAdapter comAdapter = new CommitedGridAdapter();
 		commitedGV.setAdapter(comAdapter);
-		comAdapter.notifyDataSetChanged();
+//		comAdapter.notifyDataSetChanged();
 		titleTV.setText("当前下单");
+		totalTV.setText("￥"+orderInfo.getCommitedSum());
 		backIV.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				finish();
 			}
 		});
+		final LayoutInflater inflater = CurrentOrderActivity.this.getLayoutInflater();
 		commitBT.setOnClickListener(new View.OnClickListener() {
+			String tableId = AppController.getInstance().getTableId();
 			public void onClick(View v) {
-				orderInfo.commit();
-				willAdapter.notifyDataSetChanged();
-				comAdapter.notifyDataSetChanged();
+				if(tableId==null){
+					View customDialog = inflater.inflate(R.layout.dialog_tableid, null);
+					final EditText tableIdTV = (EditText)customDialog.findViewById(R.id.tableid_tv);
+					AlertDialog dialog = new AlertDialog.Builder(CurrentOrderActivity.this).setTitle("请输入桌号").setIcon(
+						android.R.drawable.ic_dialog_info).setView(
+						customDialog).setPositiveButton("确定",new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int which) {
+								String text = tableIdTV.getText().toString();
+								if((text==null)||(text.trim().equals(""))){
+									dialog.dismiss();
+									Toast.makeText(CurrentOrderActivity.this, "输入不能为空", Toast.LENGTH_SHORT).show();
+								}else{
+									AppController.getInstance().setTableId(text);
+									tableId = text;
+									orderInfo.commit();
+									willAdapter.notifyDataSetChanged();
+									totalTV.setText("￥"+orderInfo.getCommitedSum());
+									comAdapter.notifyDataSetChanged();
+								}
+							}
+							
+						})
+						.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						}).show();
+				}else{
+					orderInfo.commit();
+					willAdapter.notifyDataSetChanged();
+					totalTV.setText("￥"+orderInfo.getCommitedSum());
+					comAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+		checkOutBT.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				
 			}
 		});
 	}
@@ -213,4 +255,5 @@ public class CurrentOrderActivity extends Activity {
         params.height = totalHeight;  
         gridView.setLayoutParams(params);  
     }  
+//	class CurrentOrderTask extends SynTask<>
 }

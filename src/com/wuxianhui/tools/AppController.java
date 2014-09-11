@@ -17,6 +17,7 @@ public class AppController extends Application{
 	private boolean isConnInternet;
 	private String userId;
 	private String wspId;
+	private String tableId=null;
 	private OrderInformation orderInfo = new OrderInformation();
 	public void onCreate() {
 		super.onCreate();
@@ -92,5 +93,13 @@ public class AppController extends Application{
 
 	public void setGoodsInfo(GoodsInfo goodsInfo) {
 		this.goodsInfo = goodsInfo;
+	}
+
+	public String getTableId() {
+		return tableId;
+	}
+
+	public void setTableId(String tableId) {
+		this.tableId = tableId;
 	}
 }

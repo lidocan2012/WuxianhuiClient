@@ -3,6 +3,8 @@ package com.wuxianhui.business;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,17 +14,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jsondemo.activity.R;
 import com.wuxianhui.business.ItemListFragment.ListFragmentCallBack;
@@ -116,9 +121,11 @@ public class PlaceOrderActivity extends FragmentActivity implements OnClickListe
 		linearLayout = (LinearLayout)findViewById(R.id.linear_layout);
 		vPager_Sc = (ViewPager) findViewById(R.id.vPager_Sc);
 		imgTransBg = (ImageView) findViewById(R.id.imgTransBg);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+		lp.setMargins(30, 10, 30, 10);
 		for(int i=0;i<textViews.length;i++){
 			textViews[i] = new TextView(this);
-			linearLayout.addView(textViews[i]);
+			linearLayout.addView(textViews[i],lp);
 			textViews[i].setText(goodsTypes.get(i));
 			textViews[i].setId(BASEID+i);
 			textViews[i].setTextAppearance(this, R.style.scroll_text_style);
