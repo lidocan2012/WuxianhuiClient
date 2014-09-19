@@ -1,11 +1,23 @@
 package com.wuxianhui.business;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +39,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.jsondemo.activity.R;
+import com.wuxianhui.main.MainActivity;
 import com.wuxianhui.tools.AppController;
 import com.wuxianhui.tools.OrderInformation;
 import com.wuxianhui.tools.OrderInformation.OrderGoods;
@@ -37,6 +50,7 @@ public class CurrentOrderActivity extends Activity {
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	String wspId = AppController.getInstance().getWspId();
 	WillCommitGridAdapter willAdapter;
+	CommitedGridAdapter comAdapter;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -50,13 +64,13 @@ public class CurrentOrderActivity extends Activity {
 		Button commitBT = (Button)findViewById(R.id.commit_Button);
 		final TextView totalTV = (TextView)findViewById(R.id.total);
 		Button checkOutBT = (Button)findViewById(R.id.checkout);
-		if(orderInfo.getWillCommitNum()==0){
-			commitBT.setVisibility(View.GONE);
-		}
+//		if(orderInfo.getWillCommitNum()==0){
+//			commitBT.setVisibility(View.GONE);
+//		}
 		final MyGridView commitedGV = (MyGridView)findViewById(R.id.commited);
 		willAdapter =new WillCommitGridAdapter();
 		willCommitGV.setAdapter(willAdapter);
-		final CommitedGridAdapter comAdapter = new CommitedGridAdapter();
+		comAdapter = new CommitedGridAdapter();
 		commitedGV.setAdapter(comAdapter);
 //		comAdapter.notifyDataSetChanged();
 		titleTV.setText("当前下单");
@@ -69,6 +83,10 @@ public class CurrentOrderActivity extends Activity {
 		final LayoutInflater inflater = CurrentOrderActivity.this.getLayoutInflater();
 		commitBT.setOnClickListener(new View.OnClickListener() {
 			String tableId = AppController.getInstance().getTableId();
+			String wspId = AppController.getInstance().getWspId();
+			String userId = AppController.getInstance().getUserId();
+			double totalSum = AppController.getInstance().getOrderInfo().getWillCommitSum();
+			ArrayList<OrderGoods> willCommitOrders = AppController.getInstance().getOrderInfo().getWillCommitOrders();
 			public void onClick(View v) {
 				if(tableId==null){
 					View customDialog = inflater.inflate(R.layout.dialog_tableid, null);
@@ -84,10 +102,10 @@ public class CurrentOrderActivity extends Activity {
 								}else{
 									AppController.getInstance().setTableId(text);
 									tableId = text;
+									new CurrentOrderTask(userId,wspId,tableId,totalSum,willCommitOrders).execute("CurrentOrderTask executing");
 									orderInfo.commit();
-									willAdapter.notifyDataSetChanged();
 									totalTV.setText("￥"+orderInfo.getCommitedSum());
-									comAdapter.notifyDataSetChanged();
+									new CurrentOrderTask(userId,wspId,tableId,totalSum,willCommitOrders).execute("CurrentOrderTask executing");
 								}
 							}
 							
@@ -98,10 +116,9 @@ public class CurrentOrderActivity extends Activity {
 							}
 						}).show();
 				}else{
+					new CurrentOrderTask(userId,wspId,tableId,totalSum,willCommitOrders).execute("CurrentOrderTask executing");
 					orderInfo.commit();
-					willAdapter.notifyDataSetChanged();
 					totalTV.setText("￥"+orderInfo.getCommitedSum());
-					comAdapter.notifyDataSetChanged();
 				}
 			}
 		});
@@ -114,7 +131,7 @@ public class CurrentOrderActivity extends Activity {
 	class WillCommitGridAdapter extends BaseAdapter{
 		ArrayList<OrderGoods> willCommitInfo = orderInfo.getWillCommitOrders();
 		public int getCount() {
-			return orderInfo.getWillCommitOrders().size();
+			return willCommitInfo.size();
 		}
 		public Object getItem(int position) {
 			return position;
@@ -255,5 +272,63 @@ public class CurrentOrderActivity extends Activity {
         params.height = totalHeight;  
         gridView.setLayoutParams(params);  
     }  
-//	class CurrentOrderTask extends SynTask<>
+	class CurrentOrderTask extends AsyncTask<String,Void,String>{
+		private String userId;
+		private String wspId;
+		private String tableId;
+		private double totalSum;
+		private ArrayList<OrderGoods>  willCommitOrders= null;
+		public CurrentOrderTask(String userId, String wspId, String tableId,
+				double totalSum,ArrayList<OrderGoods> willCommitOrders) {
+			super();
+			this.userId = userId;
+			this.wspId = wspId;
+			this.tableId = tableId;
+			this.willCommitOrders = willCommitOrders;
+			this.totalSum = totalSum;
+		}
+		protected String doInBackground(String... params) {
+			JSONObject requestJSON = new JSONObject();
+			JSONArray goodsIdArray = new JSONArray();
+			JSONArray numberArray = new JSONArray();
+			try{
+				requestJSON.put("userId",userId);
+				requestJSON.put("wspId", wspId);
+				requestJSON.put("tableId", tableId);
+				requestJSON.put("totalSum",totalSum);
+				for(int i=0;i<willCommitOrders.size();i++){
+					goodsIdArray.put(i , willCommitOrders.get(i).getGoodsId());
+					numberArray.put(i,willCommitOrders.get(i).getNumber());
+				}
+				requestJSON.put("goodsIdArray", goodsIdArray);
+				requestJSON.put("numberArray", numberArray);
+				String address = getResources().getString(R.string.server_port)+"/handleCommitOrders.action";
+				HttpPost httpPost = new HttpPost(address);
+				httpPost.setEntity(new StringEntity(requestJSON.toString()));
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpResponse httpResponse = httpClient.execute(httpPost);
+				if(httpResponse.getStatusLine().getStatusCode()==200){
+					return "提交成功";
+				}else{
+					return "连接失败";
+				}
+			}catch(JSONException e){
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "JSON异常";
+		}
+		protected void onPostExecute(String result) {
+			willCommitOrders.clear();
+			willAdapter.notifyDataSetChanged();
+			comAdapter.notifyDataSetChanged();
+			Toast.makeText(CurrentOrderActivity.this, result, Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 }

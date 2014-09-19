@@ -108,7 +108,6 @@ public class OrderInformation {
 			commitedNum+=number;
 			commitedSum+=price;
 		}
-		willCommitOrders.clear();
 	}
 	public void willCommitDelete(int index) {
 		int number = willCommitOrders.get(index).getNumber();
