@@ -80,13 +80,13 @@ public final class R {
         public static final int click_login_Text=0x7f090037;
         public static final int click_login_layout=0x7f090036;
         public static final int commit_Button=0x7f090002;
-        public static final int commited=0x7f090003;
+        public static final int commited_already=0x7f090003;
         public static final int commited_dish_name=0x7f09001c;
         public static final int commited_order_num=0x7f09001e;
         public static final int commited_price=0x7f09001d;
         public static final int confirm_regist=0x7f090015;
         public static final int current_order=0x7f090026;
-        public static final int delete=0x7f09003c;
+        public static final int delete=0x7f09003b;
         public static final int forget_password=0x7f09000b;
         public static final int horiScroll=0x7f09000e;
         public static final int horizon=0x7f090007;
@@ -130,7 +130,7 @@ public final class R {
         public static final int welcome_content=0x7f090018;
         public static final int will_commit=0x7f090001;
         public static final int will_dish_name=0x7f090039;
-        public static final int will_order_num=0x7f09003b;
+        public static final int will_order_num=0x7f09003c;
         public static final int will_price=0x7f09003a;
     }
     public static final class layout {

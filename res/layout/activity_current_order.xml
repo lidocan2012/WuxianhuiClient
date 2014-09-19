@@ -36,7 +36,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="@string/commited" />
 		<com.wuxianhui.business.MyGridView
-	        android:id="@+id/commited"
+	        android:id="@+id/commited_already"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:numColumns="2"

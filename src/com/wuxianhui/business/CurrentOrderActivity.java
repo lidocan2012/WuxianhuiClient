@@ -67,7 +67,7 @@ public class CurrentOrderActivity extends Activity {
 //		if(orderInfo.getWillCommitNum()==0){
 //			commitBT.setVisibility(View.GONE);
 //		}
-		final MyGridView commitedGV = (MyGridView)findViewById(R.id.commited);
+		final MyGridView commitedGV = (MyGridView)findViewById(R.id.commited_already);
 		willAdapter =new WillCommitGridAdapter();
 		willCommitGV.setAdapter(willAdapter);
 		comAdapter = new CommitedGridAdapter();
@@ -88,6 +88,10 @@ public class CurrentOrderActivity extends Activity {
 			double totalSum = AppController.getInstance().getOrderInfo().getWillCommitSum();
 			ArrayList<OrderGoods> willCommitOrders = AppController.getInstance().getOrderInfo().getWillCommitOrders();
 			public void onClick(View v) {
+				if(totalSum==0){
+					Toast.makeText(CurrentOrderActivity.this, "您还没有下单，请下单后再提交", Toast.LENGTH_SHORT);
+					return;
+				}
 				if(tableId==null){
 					View customDialog = inflater.inflate(R.layout.dialog_tableid, null);
 					final EditText tableIdTV = (EditText)customDialog.findViewById(R.id.tableid_tv);
@@ -324,7 +328,7 @@ public class CurrentOrderActivity extends Activity {
 			return "JSON异常";
 		}
 		protected void onPostExecute(String result) {
-			willCommitOrders.clear();
+			AppController.getInstance().getOrderInfo().willCommitClear();
 			willAdapter.notifyDataSetChanged();
 			comAdapter.notifyDataSetChanged();
 			Toast.makeText(CurrentOrderActivity.this, result, Toast.LENGTH_SHORT).show();

@@ -116,6 +116,11 @@ public class OrderInformation {
 		willCommitNum -= number;
 		willCommitSum -= price;
 	}
+	public void willCommitClear(){
+		willCommitOrders.clear();
+		willCommitNum=0;
+		willCommitSum=0;
+	}
 	public class OrderGoods{
 		private Long goodsId;
 		private int number;
