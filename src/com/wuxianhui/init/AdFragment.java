@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.jsondemo.activity.R;
+import com.example.wsplog.app1.R;
 import com.wuxianhui.main.MainActivity;
 import com.wuxianhui.tools.AppController;
 

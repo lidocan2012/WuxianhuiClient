@@ -1,5 +1,7 @@
 package com.wuxianhui.tools;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -7,8 +9,10 @@ import com.android.volley.toolbox.Volley;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class AppController extends Application{
+    private static String username = "zhangsan";
 	public static final String TAG = AppController.class.getSimpleName();
 	private static AppController instance;
 	private GoodsInfo goodsInfo = new GoodsInfo();
@@ -22,6 +26,10 @@ public class AppController extends Application{
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
+		JPushInterface.setDebugMode(true); 
+		JPushInterface.init(this); 
+		 Log.d(TAG, "[ExampleApplication] onCreate");
+		System.out.println("wsp×¢²á³É¹¦");
 	}
 	
 	public static synchronized AppController getInstance(){
@@ -101,5 +109,13 @@ public class AppController extends Application{
 
 	public void setTableId(String tableId) {
 		this.tableId = tableId;
+	}
+	public String getUserName()
+	{
+		return AppController.username;
+		}
+	public void setUserName(String name)
+	{
+		AppController.username = name;
 	}
 }

@@ -1,6 +1,7 @@
 package com.wuxianhui.main;
 
-import com.jsondemo.activity.R;
+
+import com.example.wsplog.app1.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -23,7 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.jsondemo.activity.R;
+import com.example.wsplog.app1.R;
 import com.wuxianhui.tools.AppController;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;

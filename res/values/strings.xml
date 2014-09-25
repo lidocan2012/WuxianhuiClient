@@ -20,7 +20,7 @@
     <string name="vertification_code_hint">短信验证码</string>
     <string name="follow_rule">遵守无线慧服务规则，</string>
     <string name="confrim_password_hint">确认密码</string>
-    <string name="server_port">http://192.168.1.102:8080/WuxianhuiServer</string>
+    <string name="server_port">http://192.168.1.108:8080/WuxianhuiServer</string>
     <string name="click_login_user">点击登录</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="current_order">当前下单</string>
@@ -37,4 +37,10 @@
 	<string name="commit">提交</string>
 	<string name="commited">已提交</string>
 	<string name="delete">移除</string>
+    <string name="wifi_provider">WIFI服务提供者</string>
+    <drawable name="black">#000000</drawable>
+    <string name="scan_db">/mnt/sdcard/ArcGIS/Campus/scan.db</string>
+    <string name="wificonnectinfo">      </string>
+    <string name="longu">welcome to longhu</string>
+    <drawable name="white">#FFFFFF</drawable>
 </resources>

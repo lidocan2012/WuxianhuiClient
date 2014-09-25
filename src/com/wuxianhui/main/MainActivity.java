@@ -29,7 +29,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.jsondemo.activity.R;
+import com.example.wsplog.app1.R;
 import com.wuxianhui.init.WelcomeActivity;
 import com.wuxianhui.tools.AppController;
 import com.wuxianhui.tools.GoodsClass;

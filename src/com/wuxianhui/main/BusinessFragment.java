@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.jsondemo.activity.R;
+import com.example.wsplog.app1.R;
 import com.wuxianhui.business.PlaceOrderActivity;
 
 public class BusinessFragment extends Fragment {
