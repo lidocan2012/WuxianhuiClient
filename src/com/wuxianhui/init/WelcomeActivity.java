@@ -28,32 +28,21 @@ import com.wuxianhui.tools.AppController;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
-	String wspuserId = 1+"";
+	String wspuserId = AppController.getInstance().getWspId();
 	String menuString = "";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
 		fragmentManager = this.getSupportFragmentManager();
-		AppController.getInstance().setWspId(wspuserId);
-		Button button = (Button)findViewById(R.id.button1);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new WelcomeTask().execute(wspuserId);
-				fragmentTransaction = fragmentManager.beginTransaction();
-				AdFragment adFragment = new AdFragment();
-				fragmentTransaction.replace(R.id.welcome_content, adFragment);
-				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-				fragmentTransaction.commit();
-			}
-		});
+		new WelcomeTask().execute(wspuserId);
+		
 	}
 	class WelcomeTask extends AsyncTask<String,Void,String>{
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();
 			try{
-				requestJSON.put("wspid", params[0]);
+				requestJSON.put("wspid",wspuserId);
 				String address = getResources().getString(R.string.server_port)+"/showMenuInfo.action";
 				HttpPost httpPost = new HttpPost(address);
 				httpPost.setEntity(new StringEntity(requestJSON.toString()));
@@ -80,7 +69,13 @@ public class WelcomeActivity extends FragmentActivity {
 			return "JSON“Ï≥£";
 		}
 		protected void onPostExecute(String result) {
-			Toast.makeText(WelcomeActivity.this, result, Toast.LENGTH_SHORT).show();
+			Toast.makeText(WelcomeActivity.this, wspuserId+result, Toast.LENGTH_SHORT).show();
+			fragmentTransaction = fragmentManager.beginTransaction();
+			AdFragment adFragment = new AdFragment();
+			fragmentTransaction.replace(R.id.welcome_content, adFragment);
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+			fragmentTransaction.commit();
 		}
 	}
 	public String getWspuserId(){

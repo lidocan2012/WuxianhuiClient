@@ -34,6 +34,7 @@ import com.qin.wsp.ExampleUtil;
 import com.qin.wsp.WifiConnect.WifiCipherType;
 import com.qin.wsp.WifiConnect;
 import com.qin.wsp.GuanggaoView;
+import com.wuxianhui.init.WelcomeActivity;
 import com.wuxianhui.tools.AppController;
 import com.example.wsplog.app1.R;
 public class wifiActivity extends InstrumentedActivity { 
@@ -128,7 +129,7 @@ public class wifiActivity extends InstrumentedActivity {
 					jsonObj.put("WifiRID", RID);
 					System.out.println("jsonObj:"+jsonObj);
 					//设置请求IP
-					String address = "http://192.168.1.108:8080/WuxianhuiServer/getAuthorise.action";
+					String address = getResources().getString(R.string.server_port)+"/getAuthorise.action";
 					// 创建请求并绑定请求到Entity
 					HttpPost hp = new HttpPost(address);
 					hp.setEntity(new StringEntity(jsonObj.toString()));
@@ -323,6 +324,8 @@ public class Task extends AsyncTask<String, Void, Boolean>
 				 wificonnecttext.setText("已获得"+wifiname+"使用wifi的授权");
 				// wifibt.setText("密码为:"+msg+":");
 				 wififlag=true;
+				 Intent intent = new Intent(wifiActivity.this,WelcomeActivity.class);
+				 startActivity(intent);
 		}
 		
 		//super.onPostExecute(result);

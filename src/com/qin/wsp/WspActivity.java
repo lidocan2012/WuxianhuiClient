@@ -1,6 +1,7 @@
 package com.qin.wsp;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -45,12 +46,9 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -67,12 +65,13 @@ import android.content.Intent;
 import cn.jpush.android.api.InstrumentedActivity;
 
 import com.qin.wsp.WifiAsyncTask;
+import com.wuxianhui.tools.AppController;
 import com.example.wsplog.app1.R;
 
 public class WspActivity extends InstrumentedActivity {
 	
 	int cishu=0;
-  int choice = 0;
+	int choice = 0;
 	WifiManager wifiManager;
 	ListView listView;
 	List<ScanResult> scanResults;
@@ -104,6 +103,7 @@ public class WspActivity extends InstrumentedActivity {
    String BSSIDArray[];
    String DisplayNameArray[];
    String WspUserNameArray[];
+   List<Long> wspIds = new ArrayList<Long>();
    WifiManager wifiM;
    WifiConnect wc;
    WifiAsyncTask wa;
@@ -163,7 +163,7 @@ public class WspActivity extends InstrumentedActivity {
 		}
 	
 		wifiManager.startScan();
-		 wifiManager.getScanResults();
+		wifiManager.getScanResults();
 
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		Location location = locationManager
@@ -231,7 +231,7 @@ public class WspActivity extends InstrumentedActivity {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("mac", params[0]);
 					//设置请求IP
-					String address = "http://192.168.1.108:8080/WuxianhuiServer/getwifi.action";
+					String address = getResources().getString(R.string.server_port)+"/getwifi.action";
 					
 					// 创建请求并绑定请求到Entity
 					HttpPost hp = new HttpPost(address);
@@ -249,6 +249,7 @@ public class WspActivity extends InstrumentedActivity {
 						BSSID = result.getString("mac");
 						DisplayName=result.getString("displayname");
 						WspUserName=result.getString("wspusername");
+						wspIds.add(result.getLong("wspId"));
 						//gender = result.getString("gender");
 						System.out.println("result" + mStrResult);
 					} else {
@@ -266,7 +267,7 @@ public class WspActivity extends InstrumentedActivity {
 					System.out.println("jsons  :"+tmp);
 					
 					
-					String address = "http://192.168.1.108:8080/WuxianhuiServer/getWifiList.action";
+					String address = getResources().getString(R.string.server_port)+"/getWifiList.action";
 					HttpPost hp = new HttpPost(address);
 					hp.setEntity(new StringEntity(jsons.toString()));//数组toString
 
@@ -286,6 +287,7 @@ public class WspActivity extends InstrumentedActivity {
 							BSSID += obj.getString("mac") + ",";
 							DisplayName +=obj.getString("displayname") + ",";
 							WspUserName +=obj.getString("wspusername")+",";
+							wspIds.add(obj.getLong("wspId"));
 						//	gender += obj.getString("gender") + ",";
 						}
 					} else {
@@ -294,13 +296,13 @@ public class WspActivity extends InstrumentedActivity {
 					}
 				}
 			}else if(choice==2)
-			{String url = "http://192.168.1.108:8080/WuxianhuiServer/getWifiList.action";
+			{String url = getResources().getString(R.string.server_port)+"/getWifiList.action";
 				if(strs.length==1){
 				  		
 	    		try {
 	    			JSONObject jsonObj = new JSONObject();
 					jsonObj.put("mac", params[0]);
-					 HttpClient client = new DefaultHttpClient();  
+					HttpClient client = new DefaultHttpClient();  
 					     //当请求的网络为wap的时候，就需要添加中国移动代理  
 					      
 					        HttpHost proxy = new HttpHost("10.0.0.172", 80);  
@@ -309,11 +311,7 @@ public class WspActivity extends InstrumentedActivity {
 					      
 					    HttpPost hp = new HttpPost(url);  
 					   // hp.setHeader("Charset", "UTF-8");  
-					  //  hp.setHeader("Content-Type", "application/x-www-form-urlencoded");  
-					   
-					      
-					     
-					   
+					  //  hp.setHeader("Content-Type", "application/x-www-form-urlencoded"); 
 					    hp.setEntity(new StringEntity(jsonObj.toString()));  
 					    HttpResponse response = null;  
 					    response = client.execute(hp);  
@@ -328,6 +326,7 @@ public class WspActivity extends InstrumentedActivity {
 							BSSID = result.getString("mac");
 							DisplayName=result.getString("displayname");
 							WspUserName=result.getString("wspusername");
+							wspIds.add(result.getLong("wspId"));
 							//gender = result.getString("gender");
 							System.out.println("result" + mStrResult);  
 						}
@@ -369,6 +368,7 @@ public class WspActivity extends InstrumentedActivity {
 							BSSID += obj.getString("mac") + ",";
 							DisplayName +=obj.getString("displayname") + ",";
 							WspUserName +=obj.getString("wspusername")+",";
+							wspIds.add(obj.getLong("wspId"));
 						//	gender += obj.getString("gender") + ",";
 						}
 					} else {
@@ -443,15 +443,14 @@ private void wifi()
     for(int i=1;i<scanResults.size();i++)
 	{
 	 wifinamebssid+=scanResults.get(i).BSSID;
-	 if(i<scanResults.size()-1)
-	 {
+	 if(i<scanResults.size()-1){
 		 wifinamebssid+=",";
 	 }
 	}
     System.out.println("scanResults.size:"+scanResults.size());
     System.out.println("wifiname :"+wifinamebssid);
-   mTask = new MyTask();
-     mTask.execute(wifinamebssid);
+    mTask = new MyTask();
+    mTask.execute(wifinamebssid);
 	}
 	private void wifiInfo() {
 		
@@ -524,10 +523,9 @@ private void wifi()
 		listView.setAdapter(adapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 				
-				
+				AppController.getInstance().setWspId(wspIds.get(position).longValue()+"");
 				Intent intent= new Intent(WspActivity.this,wifiActivity.class);
 				intent.putExtra("ssid", SSIDArray[position].toString().trim());
 				intent.putExtra("bssid", BSSIDArray[position].toString().trim());
@@ -552,37 +550,6 @@ private void wifi()
 			}
 		}, 0, 3000000);
 	}
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.wifi_info_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_open_wifi:
-			if (!wifiManager.isWifiEnabled()) {
-				wifiManager.setWifiEnabled(true);
-			}
-			break;
-		case R.id.menu_scan_wifi:
-			startMonotor();
-			break;
-		case R.id.menu_close_monitor:
-			Log.i("MyWifiInfo", "Stop timer");
-			timer.cancel();
-			timer = null;
-			break;
-
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
-
 	@Override
 	protected void onDestroy() {
 	
