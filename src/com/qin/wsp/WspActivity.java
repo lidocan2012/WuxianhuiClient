@@ -525,7 +525,7 @@ private void wifi()
 
 			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 				
-				AppController.getInstance().setWspId(wspIds.get(position).longValue()+"");
+				AppController.getInstance().setWspId(wspIds.get(position));
 				Intent intent= new Intent(WspActivity.this,wifiActivity.class);
 				intent.putExtra("ssid", SSIDArray[position].toString().trim());
 				intent.putExtra("bssid", BSSIDArray[position].toString().trim());

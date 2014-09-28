@@ -51,6 +51,10 @@
             android:name="com.wuxianhui.init.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/WindowTitleTheme" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity
             android:name="com.wuxianhui.init.RegistActivity"
@@ -81,10 +85,6 @@
 	    <activity android:name="com.qin.wsp.WspActivity"
               android:label="@string/app_name"
                android:theme="@style/WindowTitleTheme">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
     </activity>
      <activity android:name="com.qin.wsp.wifiActivity"></activity>
    

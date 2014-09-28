@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity {
     private RadioGroup radioGroup;
     LayoutInflater inflater;
     int count = 0;
-    String wspId;
+    long wspId;
     GoodsInfo goodsInfo;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity {
         fm = this.getSupportFragmentManager();
         wspId = AppController.getInstance().getWspId();
         goodsInfo = AppController.getInstance().getGoodsInfo();
-        new MainTask().execute(wspId);
+        new MainTask().execute("wspId");
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         String menuString = getIntent().getStringExtra("menuString");
         if(menuString!=null&&!menuString.equals("")){
@@ -106,7 +106,7 @@ public class MainActivity extends FragmentActivity {
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();
 			try{
-				requestJSON.put("wspid", params[0]);
+				requestJSON.put("wspid", wspId);
 				String address = getResources().getString(R.string.server_port)+"/getDishes.action";
 				HttpPost httpPost = new HttpPost(address);
 				httpPost.setEntity(new StringEntity(requestJSON.toString()));

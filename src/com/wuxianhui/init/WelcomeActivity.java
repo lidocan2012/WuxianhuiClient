@@ -28,21 +28,22 @@ import com.wuxianhui.tools.AppController;
 public class WelcomeActivity extends FragmentActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
-	String wspuserId = AppController.getInstance().getWspId();
+	long wspuserId ;
 	String menuString = "";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
+		wspuserId = 74;
 		fragmentManager = this.getSupportFragmentManager();
-		new WelcomeTask().execute(wspuserId);
+		new WelcomeTask().execute("wspuserId");
 		
 	}
 	class WelcomeTask extends AsyncTask<String,Void,String>{
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();
 			try{
-				requestJSON.put("wspid",wspuserId);
+				requestJSON.put("wspid", wspuserId);
 				String address = getResources().getString(R.string.server_port)+"/showMenuInfo.action";
 				HttpPost httpPost = new HttpPost(address);
 				httpPost.setEntity(new StringEntity(requestJSON.toString()));
@@ -78,7 +79,7 @@ public class WelcomeActivity extends FragmentActivity {
 			fragmentTransaction.commit();
 		}
 	}
-	public String getWspuserId(){
+	public long getWspuserId(){
 		return wspuserId;
 	}
 	public String getMenuString(){

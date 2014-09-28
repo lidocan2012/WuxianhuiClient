@@ -28,7 +28,7 @@ public class AdFragment extends Fragment{
 	private List<NetworkImageView> imageViews; // 滑动的图片集合
 	private List<View> dots; // 图片标题正文的那些点
 	private int currentItem = 0; // 当前图片的索引号
-	String wspuserId;
+	long wspuserId;
 	private String[] imageUrls = new String[5];
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	// 切换当前显示的图片

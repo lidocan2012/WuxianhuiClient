@@ -23,7 +23,7 @@ public class ItemListFragment extends ListFragment{
 	List<Double> prices;
 	List<String> dishNames;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-	String wspId = AppController.getInstance().getWspId();
+	long wspId = AppController.getInstance().getWspId();
 	LayoutInflater inflater =null;
 	public ItemListFragment(int indexOfGoodsTypes, List<String> imageUrls,
 			List<Double> prices, List<String> dishNames) {

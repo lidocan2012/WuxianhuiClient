@@ -19,8 +19,8 @@ public class AppController extends Application{
 	private RequestQueue requestQueue;
 	private ImageLoader imageLoader;
 	private boolean isConnInternet;
-	private String userId;
-	private String wspId;
+	private long userId;
+	private long wspId;
 	private String tableId=null;
 	private OrderInformation orderInfo = new OrderInformation();
 	public void onCreate() {
@@ -79,19 +79,19 @@ public class AppController extends Application{
 		return orderInfo;
 	}
 
-	public String getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
-	public String getWspId() {
+	public long getWspId() {
 		return wspId;
 	}
 
-	public void setWspId(String wspId) {
+	public void setWspId(long wspId) {
 		this.wspId = wspId;
 	}
 

@@ -76,7 +76,7 @@ public class wifiActivity extends InstrumentedActivity {
 				// TODO Auto-generated method stub
 				if(wififlag==true)
 				{
-					Intent i =new Intent(wifiActivity.this,GuanggaoView.class);
+					Intent i =new Intent(wifiActivity.this,WelcomeActivity.class);
 					startActivity(i);
 					
 				}
@@ -176,26 +176,22 @@ public class wifiActivity extends InstrumentedActivity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			//super.onPostExecute(result);
-			if(authorise==false)
-			{ 
+			if(authorise==false){ 
 				if(passwd=="") 
 			   {
 				this.flag=wc.Connect(ssid,passwd,WifiCipherType.WIFICIPHER_NOPASS);
 			
-			   }
-			 else{ this.flag=wc.Connect(ssid, passwd,WifiCipherType.WIFICIPHER_WPA);
+			   }else{ this.flag=wc.Connect(ssid, passwd,WifiCipherType.WIFICIPHER_WPA);
 				System.out.println("flag: "+flag);
 				}
-				if(flag==true)
-			 {
+				if(flag==true){
 				 Toast toast=Toast.makeText(getApplicationContext(), "wifi 连接成功", Toast.LENGTH_SHORT);
 				 toast.show();
 				 wificonnecttext.setText("已获得"+wifiname+"使用wifi的授权");
-				 wifibt.setText("点此体验");
+				 wifibt.setText("请等待wifi连接上了以后，点此体验");
 				 wififlag=true;
 				 
-			 }
-				else
+				}else
 				{ 
 					 Toast toast=Toast.makeText(getApplicationContext(), "wifi 连接连接失败", Toast.LENGTH_SHORT);
 					 toast.show();
@@ -204,13 +200,11 @@ public class wifiActivity extends InstrumentedActivity {
 					 wififlag=false;
 					 
 				}
-			}
-			
-			 else{
+			}else{
 				 Toast toast=Toast.makeText(getApplicationContext(), "wifi 连接中", Toast.LENGTH_SHORT);
                  toast.show();
                  wificonnecttext.setText(wifiname+"授权等待中");
-                 wifibt.setText("等待wifi授权");
+                 wifibt.setText("请等待wifi连接上了以后，点此体验");
                 // wififlag=false;
 			 } 
 		}
@@ -324,8 +318,6 @@ public class Task extends AsyncTask<String, Void, Boolean>
 				 wificonnecttext.setText("已获得"+wifiname+"使用wifi的授权");
 				// wifibt.setText("密码为:"+msg+":");
 				 wififlag=true;
-				 Intent intent = new Intent(wifiActivity.this,WelcomeActivity.class);
-				 startActivity(intent);
 		}
 		
 		//super.onPostExecute(result);

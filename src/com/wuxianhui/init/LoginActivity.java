@@ -32,7 +32,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.example.wsplog.app1.R;
+import com.qin.wsp.WspActivity;
 import com.wuxianhui.tools.AppController;
 import com.wuxianhui.tools.SPHelper;
 
@@ -191,13 +194,21 @@ public class LoginActivity extends Activity {
 				return;
 			}
 			Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
-			AppController.getInstance().setUserId(result);
+			AppController.getInstance().setUserId(Long.parseLong(result));
 			helper.putValue("id", result);
 			helper.putValue("telephone", phonenumberET.getText().toString().trim());
 			helper.putValue("password", passwordET.getText().toString().trim());
-			Intent intent = new Intent(LoginActivity.this,WelcomeActivity.class);
+			Intent intent = new Intent(LoginActivity.this,WspActivity.class);
 			startActivity(intent);
 			finish();
 		}
+	}
+	protected void onResume(){
+		super.onResume();
+		JPushInterface.onResume(this);
+	}
+	protected void onPause(){
+		super.onPause();
+		JPushInterface.onPause(this);
 	}
 }

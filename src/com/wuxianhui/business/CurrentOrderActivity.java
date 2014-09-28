@@ -48,7 +48,7 @@ public class CurrentOrderActivity extends Activity {
 	OrderInformation orderInfo;
 	LayoutInflater inflater;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-	String wspId = AppController.getInstance().getWspId();
+	long wspId = AppController.getInstance().getWspId();
 	WillCommitGridAdapter willAdapter;
 	CommitedGridAdapter comAdapter;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +83,8 @@ public class CurrentOrderActivity extends Activity {
 		final LayoutInflater inflater = CurrentOrderActivity.this.getLayoutInflater();
 		commitBT.setOnClickListener(new View.OnClickListener() {
 			String tableId = AppController.getInstance().getTableId();
-			String wspId = AppController.getInstance().getWspId();
-			String userId = AppController.getInstance().getUserId();
+			long wspId = AppController.getInstance().getWspId();
+			long userId = AppController.getInstance().getUserId();
 			double totalSum = AppController.getInstance().getOrderInfo().getWillCommitSum();
 			ArrayList<OrderGoods> willCommitOrders = AppController.getInstance().getOrderInfo().getWillCommitOrders();
 			public void onClick(View v) {
@@ -277,12 +277,12 @@ public class CurrentOrderActivity extends Activity {
         gridView.setLayoutParams(params);  
     }  
 	class CurrentOrderTask extends AsyncTask<String,Void,String>{
-		private String userId;
-		private String wspId;
+		private long userId;
+		private long wspId;
 		private String tableId;
 		private double totalSum;
 		private ArrayList<OrderGoods>  willCommitOrders= null;
-		public CurrentOrderTask(String userId, String wspId, String tableId,
+		public CurrentOrderTask(long userId, long wspId, String tableId,
 				double totalSum,ArrayList<OrderGoods> willCommitOrders) {
 			super();
 			this.userId = userId;
