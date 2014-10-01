@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.jpush.android.api.JPushInterface;
@@ -48,6 +49,7 @@ public class LoginActivity extends Activity {
 	CheckBox isRememberCB;
 	SPHelper helper;
 	ConnectivityManager connManager;
+	TextView forget;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -112,7 +114,7 @@ public class LoginActivity extends Activity {
 		registButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(LoginActivity.this,RegistActivity.class);
-				registButton.setTextColor(Color.parseColor("#AA3411"));
+				registButton.setTextColor(getResources().getColor(R.color.after_click));
 				startActivity(intent);
 			}
 		});
@@ -138,22 +140,18 @@ public class LoginActivity extends Activity {
 		}else{
 			AppController.getInstance().setConnInternet(true);
 		}
+		forget = (TextView)findViewById(R.id.forget_password);
+		forget.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				forget.setTextColor(getResources().getColor(R.color.after_click));
+				if(phonenumberET.getText()==null||phonenumberET.getText().toString().trim().equals("")){
+					Toast.makeText(LoginActivity.this, "请输入手机号，你的密码将发送到你的手机上。", Toast.LENGTH_LONG).show();
+				}else{
+					new FindPasswordTask().execute(phonenumberET.getText().toString());
+				}
+			}
+		});
 	}
-	/**
-	 * public void setActionBarLayout(int layoutId){
-		ActionBar actionBar = getActionBar();
-		if(actionBar != null){
-			actionBar.setDisplayShowHomeEnabled(false);
-			actionBar.setDisplayShowCustomEnabled(true);
-			LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view =inflater.inflate(layoutId, null);
-			registButton = (Button)view.findViewById(R.id.text_regist);
-			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-			actionBar.setCustomView(view,params);
-		}
-	}
-	 */
-	
 	class LoginTask extends AsyncTask<String,Void,String>{
 		protected String doInBackground(String... params) {
 			JSONObject requestJSON = new JSONObject();
@@ -201,6 +199,46 @@ public class LoginActivity extends Activity {
 			Intent intent = new Intent(LoginActivity.this,WspActivity.class);
 			startActivity(intent);
 			finish();
+		}
+	}
+	class FindPasswordTask extends AsyncTask<String,Void,String>{
+		protected String doInBackground(String... params) {
+			JSONObject requestJSON = new JSONObject();
+			try {
+				requestJSON.put("tel",params[0]);
+				String address = getResources().getString(R.string.server_port)+"/FindPassword.action";
+				HttpPost httpPost = new HttpPost(address);
+				httpPost.setEntity(new StringEntity(requestJSON.toString()));
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpResponse httpResponse = httpClient.execute(httpPost);
+				if (httpResponse.getStatusLine().getStatusCode() == 200) {
+					String responseString = EntityUtils.toString(httpResponse.getEntity());
+					JSONObject responseJSON = new JSONObject(responseString);
+					String idString =responseJSON.getString("result");
+					return idString;
+				}else{
+					return "连接失败";
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "json异常";
+		}
+		protected void onPostExecute(String result) {
+			if(result.equals("err10003")){
+				Toast.makeText(LoginActivity.this, "输入的手机号还未注册", Toast.LENGTH_SHORT).show();
+				return;
+			}else if (result.equals("success")) {
+				Toast.makeText(LoginActivity.this, "您的密码将发送到你的手机上。", Toast.LENGTH_LONG).show();
+				return;
+			}
+			Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
 		}
 	}
 	protected void onResume(){

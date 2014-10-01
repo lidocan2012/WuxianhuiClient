@@ -11,4 +11,5 @@
     <color name="white">#fff3f3f3</color>
     <color name="black">#000000</color>
     <color name="deep_gray">#4F4F4F</color>
+    <color name="after_click">#AA3411</color>
 </resources>

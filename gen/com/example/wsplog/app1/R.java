@@ -16,6 +16,7 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int after_click=0x7f05000b;
         public static final int black=0x7f050009;
         public static final int blue=0x7f050005;
         public static final int deep_gray=0x7f05000a;
