@@ -106,7 +106,6 @@ public class CurrentOrderActivity extends Activity {
 								}else{
 									AppController.getInstance().setTableId(text);
 									tableId = text;
-									new CurrentOrderTask(userId,wspId,tableId,totalSum,willCommitOrders).execute("CurrentOrderTask executing");
 									orderInfo.commit();
 									totalTV.setText("гд"+orderInfo.getCommitedSum());
 									new CurrentOrderTask(userId,wspId,tableId,totalSum,willCommitOrders).execute("CurrentOrderTask executing");

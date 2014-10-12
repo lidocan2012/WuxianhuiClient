@@ -79,7 +79,7 @@ public class wifiActivity extends InstrumentedActivity {
 					Intent i =new Intent(wifiActivity.this,WelcomeActivity.class);
 					startActivity(i);
 					
-				}
+				}   
 				else
 				{
 					finish();

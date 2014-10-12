@@ -19,8 +19,8 @@ public class AppController extends Application{
 	private RequestQueue requestQueue;
 	private ImageLoader imageLoader;
 	private boolean isConnInternet;
-	private long userId;
-	private long wspId;
+	private long userId=5;
+	private long wspId=74;
 	private String tableId=null;
 	private OrderInformation orderInfo = new OrderInformation();
 	public void onCreate() {

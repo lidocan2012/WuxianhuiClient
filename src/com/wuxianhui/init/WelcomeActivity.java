@@ -34,7 +34,7 @@ public class WelcomeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
-		wspuserId = 74;
+		wspuserId = AppController.getInstance().getWspId();
 		fragmentManager = this.getSupportFragmentManager();
 		new WelcomeTask().execute("wspuserId");
 		
